@@ -12,7 +12,7 @@ class StoreTransactionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,25 @@ class StoreTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'client_id' => ['nullable', 'exists:clients,id',],
+            'promotion_id' => ['nullable','exists:promotions,id',],
+            'transaction_date' => ['required','date',],
+            'transaction_type' => ['required','in:income,expense',],
+            'responsible' => ['required','in:edgar,jorge',],
+
+
+            'details' => ['required','array','min:1',],
+            'details.*.service_id' => ['required','exists:services,id',],
+            'details.*.promotion_id' => ['nullable','exists:promotions,id',],
+            'details.*.quantity' => ['required','integer','min:1',],
+
+
+
+            'payments' => ['nullable','array',],
+            'payments.*.payment_method_id' => ['required','exists:payment_methods,id',],
+            'payments.*.amount' => ['required','numeric','min:0',],
+            'payments.*.payment_type' => ['required','in:advance,full,balance',],
+            'payments.*.payment_date' => ['required','date',],
         ];
     }
 }

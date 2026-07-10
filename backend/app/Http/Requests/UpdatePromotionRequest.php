@@ -12,7 +12,7 @@ class UpdatePromotionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,16 @@ class UpdatePromotionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=> ['required', 'string', 'max:255'],
+            'description'=> ['nullable', 'string', 'max:255'],
+            'discount_type'=> ['required', 'in:percentage,fixed'],
+            'discount_value'=> ['required', 'numeric', 'min:0'],
+            'start_date'=> ['required', 'date'],
+            'end_date'=> ['required', 'date', 'after_or_equal:start_date'],
+            'status'=> ['required', 'in:active,inactive'],
+
+            'services' => ['nullable', 'array'],
+            'services.*' => ['exists:services,id'],
         ];
     }
 }

@@ -11,6 +11,18 @@ class Service extends Model
         'description',
         'cost',
         'price',
-        'status'
+        'profit'
     ];
+
+    public function promotions()
+    {
+        return $this->belongsToMany(Promotion::class);
+    }
+
+    public function transactionDetails()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
+
 }
+

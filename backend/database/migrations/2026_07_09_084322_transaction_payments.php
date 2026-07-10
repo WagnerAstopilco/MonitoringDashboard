@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('transaction_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('transaction_id')->nullable()->constrained('transactions')->onDelete('set null');
             $table->foreignId('payment_method_id')->nullable()->constrained('payment_methods')->onDelete('set null');
             $table->decimal('amount', 10, 2);

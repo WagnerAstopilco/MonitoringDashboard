@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePaymentMethodRequest extends FormRequest
+class UpdateTransactionPaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,11 @@ class UpdatePaymentMethodRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:20'],
+            'transaction_id' => ['required', 'exists:transactions,id'],
+            'payment_method_id' => ['required', 'exists:payment_methods,id'],
+            'amount' => ['required', 'numeric', 'min:0'],
+            'payment_type'=>['required', 'in:advance,full,balance'],
+            'payment_date' => ['required', 'date'],
         ];
     }
 }

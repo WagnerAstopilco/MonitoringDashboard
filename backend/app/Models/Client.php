@@ -14,4 +14,9 @@ class Client extends Model
         'company_name',
         'company_ruc'
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
