@@ -29,10 +29,11 @@ class UpdateTransactionRequest extends FormRequest
             'transaction_type' => ['required','in:income,expense',],
             'responsible' => ['required','in:edgar,jorge',],
 
-
             'details' => ['required','array','min:1',],
+            'details.*.id' => ['nullable','exists:transaction_details,id',],
             'details.*.service_id' => ['required','exists:services,id',],
             'details.*.promotion_id' => ['nullable','exists:promotions,id',],
+            'details.*.unit_price' => ['required','numeric','min:0',],
             'details.*.quantity' => ['required','integer','min:1',],
         ];
     }

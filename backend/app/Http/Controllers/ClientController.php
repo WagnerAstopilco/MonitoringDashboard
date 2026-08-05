@@ -21,7 +21,7 @@ class ClientController extends Controller
     {
         $validatedData = $request->validated();
         $client = Client::create($validatedData);
-        return new ClientResource($client);
+        return (new ClientResource($client))->response()->setStatusCode(201);
     }
 
     public function show(Client $client)
@@ -35,5 +35,14 @@ class ClientController extends Controller
         $validatedData = $request->validated();
         $client->update($validatedData);
         return new ClientResource($client);
+    }
+
+    public function destroy(Client $client)
+    {
+        if ($client->transactions()->exists()) {
+            return response()->json(['message' => 'No se puede eliminar el cliente porque tiene transacciones asociadas'], 400);
+        }
+        $client->delete();
+        return response()->json(['message'=> 'Cliente eliminado correctamente'], 200);
     }
 }

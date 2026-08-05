@@ -51,6 +51,9 @@ class PromotionController extends Controller
 
     public function destroy(Promotion $promotion)
     {
+        if($promotion->status === 'active') {
+            return response()->json(['message' => 'No se puede eliminar la promoción porque está activa'], 400);
+        }
         $promotion->delete();
         return response()->json(['message' => 'Promoción eliminada correctamente'], 200);
     }

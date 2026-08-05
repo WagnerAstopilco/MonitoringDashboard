@@ -30,7 +30,8 @@ class UsersController extends Controller
         $validatedData['must_change_password'] = true;
 
         $user = User::create($validatedData);
-        return new UserResource($user);
+        $user->assignRole($validatedData['role']);
+        return (new UserResource($user))->response()->setStatusCode(201);
     }
 
     /**
@@ -52,6 +53,7 @@ class UsersController extends Controller
             $validatedData['password'] = Hash::make($validatedData['password']);
         }
         $user->update($validatedData);
+        $user->syncRoles([$validatedData['role']]);
         return new UserResource($user);
     }
 
@@ -77,12 +79,26 @@ class UsersController extends Controller
     }
 
     /**
+     * Change status of the specified resource in storage.
+     */
+    public function changeStatus(User $user)
+    {
+        $user->update([
+            'status' => !$user->status,
+        ]);
+
+        return new UserResource($user);
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(User $user)
     {
-        $user['status'] = 'inactive';
-        $user->save();
-        return response()->json(['message' => 'Usuario desactivado correctamente'], 200);
+        if ($user->transactions()->exists()) {
+            return response()->json(['message' => 'No se puede eliminar el usuario porque tiene transacciones asociadas'], 400);
+        }
+        $user->delete();
+        return response()->json(['message' => 'Usuario eliminado correctamente'], 200);
     }
 }

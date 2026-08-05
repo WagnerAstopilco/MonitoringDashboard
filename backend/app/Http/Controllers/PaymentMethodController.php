@@ -21,7 +21,7 @@ class PaymentMethodController extends Controller
     {
         $validatedData = $request->validated();
         $paymentMethod = PaymentMethod::create($validatedData);
-        return new PaymentMethodResource($paymentMethod);
+        return (new PaymentMethodResource($paymentMethod))->response()->setStatusCode(201);
     }
 
     public function show(PaymentMethod $paymentMethod)
@@ -38,7 +38,11 @@ class PaymentMethodController extends Controller
 
     public function destroy(PaymentMethod $paymentMethod)
     {
+        if ($paymentMethod->transactions()->exists()) {
+            return response()->json(['message' => 'No se puede eliminar el medio de pago porque tiene transacciones asociadas'], 400);
+        }
         $paymentMethod->delete();
         return response()->json(['message'=> 'Medio de pago eliminado correctamente'], 200);
+    
     }
 }

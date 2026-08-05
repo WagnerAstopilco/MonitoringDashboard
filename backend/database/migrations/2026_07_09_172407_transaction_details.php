@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id')->nullable()->constrained('transactions')->onDelete('set null');
+            $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete();
             $table->foreignId('service_id')->nullable()->constrained('services')->onDelete('set null');
             $table->foreignId('promotion_id')->nullable()->constrained('promotions')->onDelete('set null');
+            $table->decimal('unit_price', 10, 2);
             $table->integer('quantity')->default(1);
             $table->decimal('subtotal', 10, 2);
             $table->timestamps();

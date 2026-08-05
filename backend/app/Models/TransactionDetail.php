@@ -10,6 +10,7 @@ class TransactionDetail extends Model
         'transaction_id',
         'service_id',
         'promotion_id',
+        'unit_price',
         'quantity',
         'subtotal',
     ];

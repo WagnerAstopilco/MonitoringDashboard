@@ -56,12 +56,24 @@ class ServiceController extends Controller
     }
 
     /**
+     * Change the status of the specified resource.
+     */
+    public function changeStatus(Service $service)
+    {
+        $service->status = !$service->status;
+        $service->save();
+        return new ServiceResource($service);
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Service $service)
     {
-        $service['status']='inactive';
-        $service->save();
-        return response()->json(['message'=> 'Servicio desactivado correctamente'], 200);
+        if($service->transactionDetails()()->exists()) {
+            return response()->json(['message' => 'No se puede eliminar el servicio porque tiene transacciones asociadas'], 400);
+        }
+        $service->delete();
+        return response()->json(['message' => 'Servicio eliminado correctamente'], 200);
     }
 }
