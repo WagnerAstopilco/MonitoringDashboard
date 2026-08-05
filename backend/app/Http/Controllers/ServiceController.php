@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
-use Illuminate\Http\Request;
+use App\Http\Resources\ServiceResource;
+use App\Http\Requests\StoreServiceRequest;
+use App\Http\Requests\UpdateServiceRequest;
 
 class ServiceController extends Controller
 {
@@ -12,23 +14,22 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $services = Service::with('promotions')->get();
+        return ServiceResource::collection($services);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreServiceRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        $promotions = $validatedData['promotions'] ?? [];
+        unset($validatedData['promotions']);
+        $service = Service::create($validatedData);
+        $service->promotions()->sync($promotions);
+        $service['profit']= $service->price - $service->cost;
+        return new ServiceResource($service);
     }
 
     /**
@@ -36,23 +37,22 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Service $service)
-    {
-        //
+        $service->load('promotions');
+        return new ServiceResource($service);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Service $service)
+    public function update(UpdateServiceRequest $request, Service $service)
     {
-        //
+        $validatedData = $request->validated();
+        $promotionsIds = $validatedData['promotions'] ?? [];
+        unset($validatedData['promotions']);
+        $service->update($validatedData);
+        $service->promotions()->sync($promotionsIds);
+        $service['profit']= $service->price - $service->cost;
+        return new ServiceResource($service->load('promotions'));
     }
 
     /**
@@ -60,6 +60,8 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        //
+        $service['status']='inactive';
+        $service->save();
+        return response()->json(['message'=> 'Servicio desactivado correctamente'], 200);
     }
 }
