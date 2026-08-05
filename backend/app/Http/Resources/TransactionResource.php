@@ -20,6 +20,7 @@ class TransactionResource extends JsonResource
             'service_id' => $this->service_id,
             'promotion_id' => $this->promotion_id,
             'amount' => $this->amount,
+            'delivery_date' => $this->delivery_date,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

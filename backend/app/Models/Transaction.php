@@ -13,6 +13,7 @@ class Transaction extends Model
         'transaction_date',
         'transaction_type',
         'amount',
+        'delivery_date',
         'responsible',
         'status'
     ];

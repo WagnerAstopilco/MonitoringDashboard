@@ -28,6 +28,7 @@ class UpdateTransactionRequest extends FormRequest
             'transaction_date' => ['required','date',],
             'transaction_type' => ['required','in:income,expense',],
             'responsible' => ['required','in:edgar,jorge',],
+            'delivery_date' => ['required','date','after_or_equal:transaction_date',],
 
             'details' => ['required','array','min:1',],
             'details.*.id' => ['nullable','exists:transaction_details,id',],

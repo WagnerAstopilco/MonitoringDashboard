@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('transaction_date');
             $table->enum('transaction_type', ['income', 'expense'])->default('income');
             $table->decimal('amount', 10, 2);
+            $table->date('delivery_date')->nullable();
             $table->enum('responsible',['edgar','jorge'])->default('edgar');
             $table->enum('status', ['paid', 'pending', 'partially_paid'])->default('pending');
             $table->timestamps();

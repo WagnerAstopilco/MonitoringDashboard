@@ -9,6 +9,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionPaymentController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -21,3 +22,13 @@ Route::apiResource('promotions',PromotionController::class);
 Route::apiResource('payment-methods', PaymentMethodController::class);
 Route::apiResource('transactions', TransactionController::class);
 Route::apiResource('transaction-payments', TransactionPaymentController::class);
+
+Route::post('/login', [AuthController::class,'login']);
+
+Route::middleware('auth:sanctum')->group(function(){
+
+    Route::get('/me', [AuthController::class, 'me']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+});
