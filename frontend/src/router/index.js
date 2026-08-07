@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { getToken, getUser } from '@/utils/authStorage';
+import { getToken, getUser } from '@/utils/authStorage.js';
 import AdminLayout from "@/layouts/adminLayout.vue";
 import DashboardView from "@/views/main/dashboard.vue";
 import SalesBoardView from "@/views/main/salesboard.vue";
@@ -22,10 +22,10 @@ export const getHomeRouteByRole = (role) => {
         case 'admin':
             return { name: 'dashboard' };
 
-        case 'empleado':
+        case 'employee':
             return { name: 'salesboard' };
 
-        case 'visita':
+        case 'visit':
             return { name: 'dashboard' };
 
         default:
@@ -90,6 +90,9 @@ const router = createRouter({
             path: "/user/profile",
             name: "profile",
             component: ProfileView,
+            meta: {
+                requiresAuth: true
+            },
         },
         {
             path: "/",
