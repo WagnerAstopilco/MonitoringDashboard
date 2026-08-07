@@ -3,42 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-<<<<<<< Updated upstream
-use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-
-class AuthController extends Controller
-{
-    public function login(LoginRequest $request)
-    {
-        $credentials = $request->validated();
-
-        if (!Auth::attempt($credentials)) {
-
-            return response()->json([
-                'message' => 'Credenciales inválidas.'
-            ], 401);
-        }
-
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        $token = $user
-            ->createToken('auth_token')
-            ->plainTextToken;
-
-        return response()->json([
-
-            'access_token' => $token,
-
-            'token_type' => 'Bearer',
-
-            'user' => $user
-
-        ]);
-=======
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Resources\UserResource;
@@ -98,16 +63,10 @@ class AuthController extends Controller
 
         ]);
 
->>>>>>> Stashed changes
     }
 
     public function logout(Request $request)
     {
-<<<<<<< Updated upstream
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['message' => 'Logged out successfully']);
-=======
 
         $request
             ->user()
@@ -119,16 +78,10 @@ class AuthController extends Controller
             'message'=>'Sesión cerrada correctamente'
         ]);
 
->>>>>>> Stashed changes
     }
 
     public function me(Request $request)
     {
-<<<<<<< Updated upstream
-        return response()->json($request->user());
-    }
-}
-=======
 
         return response()->json(
             $request->user()
@@ -180,4 +133,3 @@ class AuthController extends Controller
     }
 
 }
->>>>>>> Stashed changes
