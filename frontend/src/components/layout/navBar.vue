@@ -1,44 +1,3 @@
-    <script setup>
-
-const menu=[
-    {
-        name:'Dashboard',
-        route:'/dashboard'
-    },
-    {
-        name:'Pizarra',
-        route:'/salesboard'
-    },
-    {
-        name:'Clientes',
-        route:'/clients'
-    },
-    {
-        name:'Servicios',
-        route:'/services'
-    },
-    {
-        name:'Promociones',
-        route:'/promotions'
-    },
-    {
-        name:'Transacciones',
-        route:'/transactions'
-    },
-    {
-        name:'Usuarios',
-        route:'/users'
-    },
-]
-const logout = () => {
-
-    console.log('Cerrar sesión')
-
-}
-
-</script>
-
-
 <template>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -50,10 +9,9 @@ const logout = () => {
 
     <RouterLink
         class="navbar-brand"
-        to="/dashboard"
+        to="/home/dashboard"
     >
     <div>
-        <img src="@/assets/images/logo.png" alt="Logo Gato Negro" class="footer-logo mb-3" style="max-width:36px; height: auto; border-radius: 50%;" />
         Gato Negro
     </div>
         
@@ -123,7 +81,7 @@ const logout = () => {
 
                 <i class="bi bi-person-circle"></i>
 
-                Usuario
+                {{ auth.user?.username }}
 
             </button>
 
@@ -135,7 +93,7 @@ const logout = () => {
 
                     <RouterLink
                         class="dropdown-item"
-                        to="/profile"
+                        to="/user/profile"
                     >
                         Perfil
                     </RouterLink>
@@ -176,3 +134,59 @@ const logout = () => {
 </nav>
 
 </template>
+
+<script setup>
+
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+
+const router = useRouter()
+
+const auth = useAuthStore()
+
+
+const menu=[
+    {
+        name:'Dashboard',
+        route:'/home/dashboard'
+    },
+    {
+        name:'Pizarra',
+        route:'/home/salesboard'
+    },
+    {
+        name:'Clientes',
+        route:'/home/clients'
+    },
+    {
+        name:'Servicios',
+        route:'/home/services'
+    },
+    {
+        name:'Promociones',
+        route:'/home/promotions'
+    },
+    {
+        name:'Transacciones',
+        route:'/home/transactions'
+    },
+    {
+        name:'Usuarios',
+        route:'/home/users'
+    },
+]
+
+
+const logout = async()=>{
+
+    // auth.logout() ya llama a AuthServices.logout(), limpia token/user
+    // del store y de localStorage (incluso si el request falla, por el finally)
+    await auth.logout()
+
+    router.push('/')
+
+}
+
+
+</script>
