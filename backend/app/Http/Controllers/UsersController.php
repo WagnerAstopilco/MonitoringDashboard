@@ -57,26 +57,7 @@ class UsersController extends Controller
         return new UserResource($user);
     }
 
-    public function resetPassword(User $user)
-    {
-        $user->update([
-            'password' => Hash::make('gatoNegro2026+'),
-            'must_change_password' => true,
-        ]);
-
-        return new UserResource($user);
-    }
-
-    public function changePassword(UpdateUserRequest $request, User $user)
-    {
-        $validatedData = $request->validated();
-        if (isset($validatedData['password'])) {
-            $validatedData['password'] = Hash::make($validatedData['password']);
-            $validatedData['must_change_password'] = false;
-        }
-        $user->update($validatedData);
-        return new UserResource($user);
-    }
+    
 
     /**
      * Change status of the specified resource in storage.

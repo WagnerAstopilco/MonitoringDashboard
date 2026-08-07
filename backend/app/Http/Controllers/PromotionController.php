@@ -7,6 +7,7 @@ use App\Models\Promotion;
 use App\Http\Resources\PromotionResource;
 use App\Http\Requests\StorePromotionRequest;
 use App\Http\Requests\UpdatePromotionRequest;
+use Illuminate\Support\Facades\Storage;
 
 class PromotionController extends Controller
 {
@@ -19,6 +20,11 @@ class PromotionController extends Controller
     public function store(StorePromotionRequest $request)
     {
         $validatedData = $request->validated();
+
+        if ($request->hasFile('promotion_image')) {
+            $path = $request->file('promotion_image')->store('image/promotions', 'public');
+            $validatedData['promotion_image'] = $path;
+        }
         $services = $validatedData['services'] ?? [];
         unset($validatedData['services']);
         $promotion = Promotion::create($validatedData);
@@ -35,6 +41,17 @@ class PromotionController extends Controller
     public function update(UpdatePromotionRequest $request, Promotion $promotion)
     {
         $validatedData = $request->validated();
+        if ($request->hasFile('promotion_image')) {
+
+            if ($promotion->promotion_image) {
+                Storage::disk('public')->delete($promotion->promotion_image);
+            }
+
+            $path = $request->file('promotion_image')
+                ->store('image/promotions', 'public');
+
+            $validatedData['promotion_image'] = $path;
+        }
         $servicesIds = $validatedData['services'] ?? [];
         unset($validatedData['services']);
         $promotion->update($validatedData);
@@ -53,6 +70,10 @@ class PromotionController extends Controller
     {
         if($promotion->status === 'active') {
             return response()->json(['message' => 'No se puede eliminar la promoción porque está activa'], 400);
+        }
+
+        if ($promotion->promotion_image) {
+            Storage::disk('public')->delete($promotion->promotion_image);
         }
         $promotion->delete();
         return response()->json(['message' => 'Promoción eliminada correctamente'], 200);

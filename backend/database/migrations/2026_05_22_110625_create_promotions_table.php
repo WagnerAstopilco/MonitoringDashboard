@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
+            $table->string('promotion_image')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
             $table->enum('discount_type', ['percentage', 'fixed'])->default('percentage');

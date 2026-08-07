@@ -29,6 +29,7 @@ class StoreServiceRequest extends FormRequest
             'cost'=> ['required', 'numeric', 'min:0'],
             'profit'=> ['required', 'numeric', 'min:0'],
             'status'=> ['required', 'in:active,inactive'],
+            'service_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
 
             'promotions' => ['nullable', 'array'],
             'promotions.*' => ['exists:promotions,id'],
