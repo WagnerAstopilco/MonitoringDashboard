@@ -23,6 +23,7 @@ Route::apiResource('payment-methods', PaymentMethodController::class);
 Route::apiResource('transactions', TransactionController::class);
 Route::apiResource('transaction-payments', TransactionPaymentController::class);
 
+<<<<<<< Updated upstream
 Route::post('/login', [AuthController::class,'login']);
 
 Route::middleware('auth:sanctum')->group(function(){
@@ -32,3 +33,22 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/logout', [AuthController::class, 'logout']);
 
 });
+=======
+Route::post('/login',[AuthController::class,'login']);
+
+Route::post('/logout',[AuthController::class,'logout'])
+    ->middleware('auth:sanctum');
+
+Route::get('/me',[AuthController::class,'me'])
+    ->middleware('auth:sanctum');
+
+Route::post('/forgot-password',[AuthController::class,'recoveryPassword']);
+
+Route::post('/reset-password',[AuthController::class,'resetPassword'])
+    ->middleware('auth:sanctum');
+
+Route::post('/update-password',[AuthController::class,'changePassword'])
+    ->middleware('auth:sanctum');
+
+
+>>>>>>> Stashed changes
