@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\ChangePasswordRequest;
 
 
 
@@ -28,12 +29,11 @@ class AuthController extends Controller
         ]);
 
 
-        if(!Auth::attempt($credentials)){
+        if (!Auth::attempt($credentials)) {
 
             return response()->json([
-                'message'=>'Credenciales incorrectas'
-            ],401);
-
+                'message' => 'Credenciales incorrectas'
+            ], 401);
         }
 
 
@@ -49,20 +49,19 @@ class AuthController extends Controller
 
         return response()->json([
 
-            'access_token'=>$token,
+            'access_token' => $token,
 
-            'token_type'=>'Bearer',
+            'token_type' => 'Bearer',
 
-            'user'=>[
-                'id'=>$user->id,
-                'name'=>$user->name,
-                'last_name'=>$user->last_name,
-                'username'=>$user->username,
-                'role'=>$user->role,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'last_name' => $user->last_name,
+                'username' => $user->username,
+                'role' => $user->role,
             ]
 
         ]);
-
     }
 
     public function logout(Request $request)
@@ -75,9 +74,8 @@ class AuthController extends Controller
 
 
         return response()->json([
-            'message'=>'Sesión cerrada correctamente'
+            'message' => 'Sesión cerrada correctamente'
         ]);
-
     }
 
     public function me(Request $request)
@@ -86,7 +84,6 @@ class AuthController extends Controller
         return response()->json(
             $request->user()
         );
-
     }
     public function recoveryPassword(Request $request)
     {
@@ -121,15 +118,25 @@ class AuthController extends Controller
         return new UserResource($user);
     }
 
-    public function changePassword(UpdateUserRequest $request, User $user)
+    public function changePassword(ChangePasswordRequest $request)
     {
-        $validatedData = $request->validated();
-        if (isset($validatedData['password'])) {
-            $validatedData['password'] = Hash::make($validatedData['password']);
-            $validatedData['must_change_password'] = false;
+        // $request->user() = el usuario dueño del token Bearer que llega en el
+        // header Authorization. No depende de ningún {id} de la URL, así que
+        // es imposible cambiarle la contraseña a otro usuario por esta vía.
+        $user = $request->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+
+            return response()->json([
+                'message' => 'La contraseña actual es incorrecta',
+            ], 422);
         }
-        $user->update($validatedData);
+
+        $user->update([
+            'password' => Hash::make($request->password),
+            'must_change_password' => false,
+        ]);
+
         return new UserResource($user);
     }
-
 }

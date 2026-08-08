@@ -49,7 +49,6 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
 import { useAuthStore } from '@/stores/auth';
 import { getHomeRouteByRole } from '@/router';

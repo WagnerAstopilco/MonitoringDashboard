@@ -36,7 +36,7 @@ Route::post('/forgot-password',[AuthController::class,'recoveryPassword']);
 Route::post('/reset-password',[AuthController::class,'resetPassword'])
     ->middleware('auth:sanctum');
 
-Route::post('/update-password',[AuthController::class,'changePassword'])
+Route::post('/change-password',[AuthController::class,'changePassword'])
     ->middleware('auth:sanctum');
 
 
