@@ -28,6 +28,9 @@ WORKDIR /var/www/html
 # Copiar proyecto Laravel
 COPY . .
 
+# Copiar certificado CA de Aiven
+COPY ca.pem /var/www/html/ca.pem
+
 # Instalar dependencias de Laravel
 RUN composer install \
     --no-dev \
