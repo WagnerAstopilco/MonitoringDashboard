@@ -1,131 +1,3 @@
-<script setup>
-import { ref } from 'vue'
-import {useRouter} from 'vue-router'
-
-/*
-|--------------------------------------------------------------------------
-| Datos de contacto
-|--------------------------------------------------------------------------
-*/
-
-const contactEmail = 'wastopilco@gmail.com'
-const whatsappNumber = '51952635357'
-const phoneNumber = '+51 952 635 357'
-
-/*
-|--------------------------------------------------------------------------
-| Formulario
-|--------------------------------------------------------------------------
-*/
-
-const form = ref({
-    name: '',
-    phone: '',
-    email: '',
-    service: '',
-    message: ''
-})
-
-const sending = ref(false)
-const successMessage = ref('')
-const errorMessage = ref('')
-const router=useRouter();
-
-/*
-|--------------------------------------------------------------------------
-| Servicios
-|--------------------------------------------------------------------------
-*/
-
-const services = [
-    'Diseño gráfico',
-    'Publicidad',
-    'Impresión',
-    'Banners y viniles',
-    'Tarjetas de presentación',
-    'Flyers y brochures',
-    'Otro'
-]
-
-/*
-|--------------------------------------------------------------------------
-| Enviar formulario
-|--------------------------------------------------------------------------
-*/
-
-const submitForm = async () => {
-
-    sending.value = true
-    successMessage.value = ''
-    errorMessage.value = ''
-
-    try {
-
-        const response = await fetch(
-            'https://formspree.io/f/mzepodej',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                },
-                body: JSON.stringify(form.value)
-            }
-        )
-
-        if (!response.ok) {
-            throw new Error('Error al enviar el formulario')
-        }
-
-        successMessage.value =
-            '¡Gracias! Tu mensaje fue enviado correctamente. Nos pondremos en contacto contigo pronto.'
-
-        form.value = {
-            name: '',
-            phone: '',
-            email: '',
-            service: '',
-            message: ''
-        }
-
-    } catch (error) {
-
-        console.error(error)
-
-        errorMessage.value =
-            'No pudimos enviar tu mensaje. Por favor, inténtalo nuevamente o contáctanos por WhatsApp.'
-
-    } finally {
-
-        sending.value = false
-
-    }
-}
-
-/*
-|--------------------------------------------------------------------------
-| WhatsApp
-|--------------------------------------------------------------------------
-*/
-
-const openWhatsApp = () => {
-
-    const message = encodeURIComponent(
-        'Hola Gato Negro, quisiera información sobre sus servicios.'
-    )
-
-    window.open(
-        `https://wa.me/${whatsappNumber}?text=${message}`,
-        '_blank'
-    )
-}
-
-const goToContact=()=>{
-    router.push({name:'about'})
-}
-</script>
-
-
 <template>
 
     <main class="contact-page">
@@ -843,6 +715,132 @@ const goToContact=()=>{
     </main>
 </template>
 
+<script setup>
+import { ref } from 'vue'
+import {useRouter} from 'vue-router'
+
+/*
+|--------------------------------------------------------------------------
+| Datos de contacto
+|--------------------------------------------------------------------------
+*/
+
+const contactEmail = 'wastopilco@gmail.com'
+const whatsappNumber = '51952635357'
+const phoneNumber = '+51 952 635 357'
+
+/*
+|--------------------------------------------------------------------------
+| Formulario
+|--------------------------------------------------------------------------
+*/
+
+const form = ref({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    message: ''
+})
+
+const sending = ref(false)
+const successMessage = ref('')
+const errorMessage = ref('')
+const router=useRouter();
+
+/*
+|--------------------------------------------------------------------------
+| Servicios
+|--------------------------------------------------------------------------
+*/
+
+const services = [
+    'Diseño gráfico',
+    'Publicidad',
+    'Impresión',
+    'Banners y viniles',
+    'Tarjetas de presentación',
+    'Flyers y brochures',
+    'Otro'
+]
+
+/*
+|--------------------------------------------------------------------------
+| Enviar formulario
+|--------------------------------------------------------------------------
+*/
+
+const submitForm = async () => {
+
+    sending.value = true
+    successMessage.value = ''
+    errorMessage.value = ''
+
+    try {
+
+        const response = await fetch(
+            'https://formspree.io/f/mzepodej',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                },
+                body: JSON.stringify(form.value)
+            }
+        )
+
+        if (!response.ok) {
+            throw new Error('Error al enviar el formulario')
+        }
+
+        successMessage.value =
+            '¡Gracias! Tu mensaje fue enviado correctamente. Nos pondremos en contacto contigo pronto.'
+
+        form.value = {
+            name: '',
+            phone: '',
+            email: '',
+            service: '',
+            message: ''
+        }
+
+    } catch (error) {
+
+        console.error(error)
+
+        errorMessage.value =
+            'No pudimos enviar tu mensaje. Por favor, inténtalo nuevamente o contáctanos por WhatsApp.'
+
+    } finally {
+
+        sending.value = false
+
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| WhatsApp
+|--------------------------------------------------------------------------
+*/
+
+const openWhatsApp = () => {
+
+    const message = encodeURIComponent(
+        'Hola Gato Negro, quisiera información sobre sus servicios.'
+    )
+
+    window.open(
+        `https://wa.me/${whatsappNumber}?text=${message}`,
+        '_blank'
+    )
+}
+
+const goToContact=()=>{
+    router.push({name:'about'})
+}
+</script>
 
 <style scoped>
 

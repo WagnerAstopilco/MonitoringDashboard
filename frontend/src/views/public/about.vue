@@ -1,48 +1,3 @@
-<script setup>
-import { ref } from 'vue'
-import router from '@/router'
-
-const services = ref([
-    {
-        icon: 'bi bi-palette',
-        title: 'Diseño gráfico',
-        description:
-            'Creamos piezas visuales que representan la identidad de tu negocio y ayudan a comunicar tus ideas de manera efectiva.'
-    },
-    {
-        icon: 'bi bi-megaphone',
-        title: 'Publicidad',
-        description:
-            'Desarrollamos material publicitario pensado para que tu negocio destaque y llegue a más personas.'
-    },
-    {
-        icon: 'bi bi-printer',
-        title: 'Impresión',
-        description:
-            'Convertimos tus diseños en productos físicos de calidad, desde tarjetas y flyers hasta banners y viniles.'
-    }
-])
-
-const values = ref([
-    {
-        title: 'Creatividad',
-        description: 'Buscamos ideas diferentes que hagan que cada proyecto tenga una identidad propia.'
-    },
-    {
-        title: 'Calidad',
-        description: 'Cuidamos cada detalle, desde el diseño hasta el resultado final de cada producto.'
-    },
-    {
-        title: 'Compromiso',
-        description: 'Trabajamos para cumplir con los objetivos y necesidades de cada cliente.'
-    }
-])
-
-const contactUs = () => {
-    router.push({ name: 'contact' })
-}
-</script>
-
 <template>
     <main class="about-page">
 
@@ -242,6 +197,51 @@ const contactUs = () => {
 
     </main>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import router from '@/router'
+
+const services = ref([
+    {
+        icon: 'bi bi-palette',
+        title: 'Diseño gráfico',
+        description:
+            'Creamos piezas visuales que representan la identidad de tu negocio y ayudan a comunicar tus ideas de manera efectiva.'
+    },
+    {
+        icon: 'bi bi-megaphone',
+        title: 'Publicidad',
+        description:
+            'Desarrollamos material publicitario pensado para que tu negocio destaque y llegue a más personas.'
+    },
+    {
+        icon: 'bi bi-printer',
+        title: 'Impresión',
+        description:
+            'Convertimos tus diseños en productos físicos de calidad, desde tarjetas y flyers hasta banners y viniles.'
+    }
+])
+
+const values = ref([
+    {
+        title: 'Creatividad',
+        description: 'Buscamos ideas diferentes que hagan que cada proyecto tenga una identidad propia.'
+    },
+    {
+        title: 'Calidad',
+        description: 'Cuidamos cada detalle, desde el diseño hasta el resultado final de cada producto.'
+    },
+    {
+        title: 'Compromiso',
+        description: 'Trabajamos para cumplir con los objetivos y necesidades de cada cliente.'
+    }
+])
+
+const contactUs = () => {
+    router.push({ name: 'contact' })
+}
+</script>
 
 <style scoped>
 .about-page {
