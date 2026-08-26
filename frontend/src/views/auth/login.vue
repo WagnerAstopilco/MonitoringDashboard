@@ -38,10 +38,6 @@
 				<p v-if="error" class="error">
 					{{ error }}
 				</p>
-
-				<div class="password-reset pt-2">
-					<RouterLink :to="{ name: 'forgotPassword' }"> ¿Olvidaste tu contraseña? </RouterLink>
-				</div>
 			</form>
 		</div>
 	</div>
@@ -86,7 +82,6 @@ const login = async()=>{
             password: form.password
 
         }, form.remember)
-
         router.push(getHomeRouteByRole(user.role))
 
 

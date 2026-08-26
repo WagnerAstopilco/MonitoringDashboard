@@ -5,9 +5,17 @@ const menu=[
         name:'Servicios',
         route:'/services'
     },
+    // {
+    //     name:'Promociones',
+    //     route:'/promotions'
+    // },
     {
-        name:'Promociones',
-        route:'/promotions'
+        name:'Contáctanos',
+        route:'/contact'
+    },
+    {
+        name:'Nosotros',
+        route:'/about'
     },
     {
         name:'Iniciar sesión',

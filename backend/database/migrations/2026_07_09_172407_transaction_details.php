@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('service_id')->nullable()->constrained('services')->onDelete('set null');
             $table->foreignId('promotion_id')->nullable()->constrained('promotions')->onDelete('set null');
             $table->decimal('unit_price', 10, 2);
+            $table->decimal('unit_cost', 10, 2)->default(0);
+            $table->decimal('profit', 10, 2)->default(0);
             $table->integer('quantity')->default(1);
             $table->decimal('subtotal', 10, 2);
             $table->timestamps();

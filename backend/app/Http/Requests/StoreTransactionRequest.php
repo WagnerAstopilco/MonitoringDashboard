@@ -27,11 +27,16 @@ class StoreTransactionRequest extends FormRequest
             'promotion_id' => ['nullable','exists:promotions,id',],
             'transaction_date' => ['required','date',],
             'transaction_type' => ['required','in:income,expense',],
+            'annotations'=>['nullable','string'],
+            'amount'=>['nullable','numeric','min:0'],
+            'profit'=>['nullable','numeric','min:0'],
             'responsible' => ['required','in:edgar,jorge',],
-            'delivery_date' => ['required','date','after_or_equal:transaction_date',],
+            'delivery_date' => ['nullable','date','after_or_equal:transaction_date',],
+            'status' => ['sometimes', 'in:paid, pending, partially_paid'],
+            'delivery_status'=>['sometimes','boolean'],
 
 
-            'details' => ['required','array','min:1',],
+            'details' => ['nullable','array'],
             'details.*.service_id' => ['required','exists:services,id',],
             'details.*.promotion_id' => ['nullable','exists:promotions,id',],
             'details.*.unit_price' => ['required','numeric','min:0',],

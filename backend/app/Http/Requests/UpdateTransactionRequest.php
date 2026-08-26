@@ -24,18 +24,23 @@ class UpdateTransactionRequest extends FormRequest
     {
         return [
             'client_id' => ['nullable', 'exists:clients,id',],
-            'promotion_id' => ['nullable','exists:promotions,id',],
-            'transaction_date' => ['required','date',],
-            'transaction_type' => ['required','in:income,expense',],
-            'responsible' => ['required','in:edgar,jorge',],
-            'delivery_date' => ['required','date','after_or_equal:transaction_date',],
+            'promotion_id' => ['nullable', 'exists:promotions,id',],
+            'transaction_date' => ['required', 'date',],
+            'transaction_type' => ['required', 'in:income,expense',],
+            'annotations' => ['sometimes', 'string'],
+            'amount' => ['sometimes', 'numeric', 'min:0'],
+            'profit' => ['sometimes', 'numeric', 'min:0'],
+            'responsible' => ['required', 'in:edgar,jorge',],
+            'delivery_date' => ['required', 'date', 'after_or_equal:transaction_date',],
+            'status' => ['sometimes', 'in:paid, pending, partially_paid'],
+            'delivery_status' => ['sometimes', 'boolean'],
 
-            'details' => ['required','array','min:1',],
-            'details.*.id' => ['nullable','exists:transaction_details,id',],
-            'details.*.service_id' => ['required','exists:services,id',],
-            'details.*.promotion_id' => ['nullable','exists:promotions,id',],
-            'details.*.unit_price' => ['required','numeric','min:0',],
-            'details.*.quantity' => ['required','integer','min:1',],
+            'details' => ['required', 'array', 'min:1',],
+            'details.*.id' => ['nullable', 'exists:transaction_details,id',],
+            'details.*.service_id' => ['required', 'exists:services,id',],
+            'details.*.promotion_id' => ['nullable', 'exists:promotions,id',],
+            'details.*.unit_price' => ['required', 'numeric', 'min:0',],
+            'details.*.quantity' => ['required', 'integer', 'min:1',],
         ];
     }
 }

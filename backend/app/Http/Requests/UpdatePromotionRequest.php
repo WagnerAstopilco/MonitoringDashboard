@@ -23,14 +23,14 @@ class UpdatePromotionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['required', 'string', 'max:255'],
-            'description'=> ['nullable', 'string', 'max:255'],
-            'discount_type'=> ['required', 'in:percentage,fixed'],
-            'discount_value'=> ['required', 'numeric', 'min:0'],
-            'start_date'=> ['required', 'date'],
-            'end_date'=> ['required', 'date', 'after_or_equal:start_date'],
-            'status'=> ['required', 'in:active,inactive'],
-            'promotion_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'name'=> ['sometimes', 'string', 'max:255'],
+            'description'=> ['sometimes', 'string', 'max:255'],
+            'discount_type'=> ['sometimes', 'in:percentage,fixed'],
+            'discount_value'=> ['sometimes', 'numeric', 'min:0'],
+            'start_date'=> ['sometimes', 'date'],
+            'end_date'=> ['sometimes', 'date', 'after_or_equal:start_date'],
+            'status'=> ['sometimes', 'in:active,inactive'],
+            'promotion_image' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
 
             'services' => ['nullable', 'array'],
             'services.*' => ['exists:services,id'],

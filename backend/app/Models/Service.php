@@ -12,6 +12,7 @@ class Service extends Model
         'service_image',
         'cost',
         'price',
+        'status',
         'profit'
     ];
 

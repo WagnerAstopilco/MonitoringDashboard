@@ -24,6 +24,8 @@ class TransactionPaymentController extends Controller
     public function store(StoreTransactionPaymentRequest $request)
     {
         $validated = $request->validated();
+        
+        $validated['payment_date'] = now();
 
         $payment = DB::transaction(function () use ($validated) {
 

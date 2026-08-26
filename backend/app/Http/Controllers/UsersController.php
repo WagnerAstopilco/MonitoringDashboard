@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
+
 class UsersController extends Controller
 {
     /**
@@ -27,6 +28,7 @@ class UsersController extends Controller
         $validatedData = $request->validated();
         $validatedData['password'] = 'gatoNegro2026+';
         $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['status'] = 'active';
         $validatedData['must_change_password'] = true;
 
         $user = User::create($validatedData);
@@ -57,16 +59,16 @@ class UsersController extends Controller
         return new UserResource($user);
     }
 
-    
-
     /**
      * Change status of the specified resource in storage.
      */
     public function changeStatus(User $user)
     {
-        $user->update([
-            'status' => !$user->status,
-        ]);
+        $user->status = $user->status === 'active' ? 'inactive' : 'active';
+
+        $user->save();
+
+        $user->refresh();
 
         return new UserResource($user);
     }

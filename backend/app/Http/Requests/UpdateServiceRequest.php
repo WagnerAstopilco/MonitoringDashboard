@@ -23,13 +23,13 @@ class UpdateServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['required', 'string', 'max:255'],
-            'description'=> ['nullable', 'string', 'max:255'],
-            'price'=> ['required', 'numeric', 'min:0'],
-            'cost'=> ['required', 'numeric', 'min:0'],
-            'profit'=> ['required', 'numeric', 'min:0'],
-            'status'=> ['required', 'in:active,inactive'],
-            'service_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'name'=> ['sometimes', 'string', 'max:255'],
+            'description'=> ['sometimes', 'string', 'max:255'],
+            'price'=> ['sometimes', 'numeric', 'min:0'],
+            'cost'=> ['sometimes', 'numeric', 'min:0'],
+            'profit'=> ['sometimes', 'numeric', 'min:0'],
+            'status'=> ['sometimes', 'in:active,inactive'],
+            'service_image' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
 
             'promotions' => ['nullable', 'array'],
             'promotions.*' => ['exists:promotions,id'],

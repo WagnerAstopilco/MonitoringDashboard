@@ -26,13 +26,14 @@ class UpdateUserRequest extends FormRequest
     {
         $user = $this->route('user');
         return [
-            'name' => ['required', 'string', 'max:100'],
-            'last_name' => ['required', 'string', 'max:100'],
-            'dni' => ['required', 'digits:8', Rule::unique('users', 'dni')->ignore($user->id)],
-            'password' => ['nullable', Password::default(), 'confirmed'],
-            'role' => ['required', 'in:admin,employee,visit'],
-            'status' => ['required', 'in:active,inactive'],
-            'must_change_password' => ['required', 'boolean'],
+            'name' => ['sometimes', 'string', 'max:100'],
+            'last_name' => ['sometimes', 'string', 'max:100'],
+            'dni' => ['sometimes', 'digits:8', Rule::unique('users', 'dni')->ignore($user->id)],
+            'username' => ['sometimes', 'string', 'max:50', 'unique:users,username'],
+            'password' => ['nullable', Password::default()],
+            'role' => ['sometimes', 'in:admin,employee,visit'],
+            'status' => ['sometimes', 'in:active,inactive'],
+            'must_change_password' => ['sometimes', 'boolean'],
         ];
     }
 }

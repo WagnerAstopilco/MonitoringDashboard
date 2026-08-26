@@ -7,10 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\ChangePasswordRequest;
-
-
+use App\Http\Requests\UpdateProfileRequest;
 
 class AuthController extends Controller
 {
@@ -28,11 +26,12 @@ class AuthController extends Controller
             ],
         ]);
 
+        $credentials['status'] = 'active';
 
         if (!Auth::attempt($credentials)) {
 
             return response()->json([
-                'message' => 'Credenciales incorrectas'
+                'message' => 'Credenciales incorrectas o usuario inactivo'
             ], 401);
         }
 
@@ -53,14 +52,7 @@ class AuthController extends Controller
 
             'token_type' => 'Bearer',
 
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'last_name' => $user->last_name,
-                'username' => $user->username,
-                'role' => $user->role,
-            ]
-
+            'user' => new UserResource($user)
         ]);
     }
 
@@ -80,33 +72,40 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-
-        return response()->json(
-            $request->user()
-        );
+        return new UserResource($request->user());
     }
-    public function recoveryPassword(Request $request)
+
+    public function updateProfile(UpdateProfileRequest $request)
     {
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string|confirmed',
-        ]);
+        $user = $request->user();
 
-        $user = User::where('username', $request->username)->first();
+        $user->update($request->validated());
 
-        if (!$user) {
-            return response()->json([
-                'message' => 'Usuario no encontrado'
-            ], 404);
-        }
-
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        return response()->json([
-            'message' => 'Contraseña actualizada correctamente'
-        ]);
+        return new UserResource($user->fresh());
     }
+
+    // public function recoveryPassword(Request $request)
+    // {
+    //     $request->validate([
+    //         'username' => 'required|string',
+    //         'password' => 'required|string|confirmed',
+    //     ]);
+
+    //     $user = User::where('username', $request->username)->first();
+
+    //     if (!$user) {
+    //         return response()->json([
+    //             'message' => 'Usuario no encontrado'
+    //         ], 404);
+    //     }
+
+    //     $user->password = bcrypt($request->password);
+    //     $user->save();
+
+    //     return response()->json([
+    //         'message' => 'Contraseña actualizada correctamente'
+    //     ]);
+    // }
 
     public function resetPassword(User $user)
     {

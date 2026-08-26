@@ -12,11 +12,21 @@ class Transaction extends Model
         'promotion_id',
         'transaction_date',
         'transaction_type',
+        'annotations',
         'amount',
+        'profit',
         'delivery_date',
         'responsible',
-        'status'
+        'status',
+        'delivery_status'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'delivery_status' => 'boolean',
+        ];
+    }
 
     public function user()
     {

@@ -18,13 +18,17 @@ class ServiceResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'service_image' => $this->image,
+            'service_image' => $this->service_image
+                ? asset('storage/' . $this->service_image)
+                : null,
             'cost' => $this->cost,
             'price' => $this->price,
             'profit' => $this->profit,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+
+            'promotions' => $this->promotions,
         ];
     }
 }

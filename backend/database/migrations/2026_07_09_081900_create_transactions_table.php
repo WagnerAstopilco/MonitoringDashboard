@@ -18,10 +18,13 @@ return new class extends Migration
             $table->foreignId('promotion_id')->nullable()->constrained('promotions')->onDelete('set null');
             $table->date('transaction_date');
             $table->enum('transaction_type', ['income', 'expense'])->default('income');
+            $table->string('annotations')->default('');
             $table->decimal('amount', 10, 2);
+            $table->decimal('profit', 10, 2)->default(0);
             $table->date('delivery_date')->nullable();
             $table->enum('responsible',['edgar','jorge'])->default('edgar');
             $table->enum('status', ['paid', 'pending', 'partially_paid'])->default('pending');
+            $table->boolean('delivery_status')->default(false);
             $table->timestamps();
         });
     }

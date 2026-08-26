@@ -27,7 +27,6 @@ class StoreTransactionPaymentRequest extends FormRequest
             'payment_method_id' => ['required', 'exists:payment_methods,id'],
             'amount' => ['required', 'numeric', 'min:0'],
             'payment_type'=>['required', 'in:advance,full,balance'],
-            'payment_date' => ['required', 'date'],
         ];
     }
 }

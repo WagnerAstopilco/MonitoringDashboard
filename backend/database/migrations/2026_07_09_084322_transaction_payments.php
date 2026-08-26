@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('payment_method_id')->nullable()->constrained('payment_methods')->onDelete('set null');
             $table->decimal('amount', 10, 2);
             $table->enum('payment_type',['advance','full', 'balance'])->default('full');
-            $table->date('payment_date');
+            $table->datetime('payment_date');
             $table->timestamps();
         });
     }

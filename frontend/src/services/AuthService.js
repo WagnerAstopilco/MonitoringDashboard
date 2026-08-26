@@ -8,15 +8,17 @@ const AuthServices = {
 
     },
 
+    me(){
+        return api.get('/me');
+    },
+
+    updateProfile(data){
+        return api.patch('/me',data)
+    },
+
     logout(){
 
         return api.post('/logout')
-
-    },
-
-    recoveryPassword(data){
-
-        return api.post('/forgot-password', data)
 
     },
 
@@ -24,11 +26,6 @@ const AuthServices = {
 
         return api.post('/change-password', data)
     },
-
-    recoveryPassword(data){
-
-        return api.post('/reset-password', data)
-    }   
 
 }
 

@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Http\Resources\ClientResource;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use Illuminate\Http\Request;
 
 
 class ClientController extends Controller
@@ -16,7 +17,7 @@ class ClientController extends Controller
         $clients = Client::with('transactions')->get();
         return ClientResource::collection($clients);
     }
-    
+
     public function store(StoreClientRequest $request)
     {
         $validatedData = $request->validated();
@@ -43,6 +44,17 @@ class ClientController extends Controller
             return response()->json(['message' => 'No se puede eliminar el cliente porque tiene transacciones asociadas'], 400);
         }
         $client->delete();
-        return response()->json(['message'=> 'Cliente eliminado correctamente'], 200);
+        return response()->json(['message' => 'Cliente eliminado correctamente'], 200);
+    }
+
+    public function searchByRuc(Request $request)
+    {
+        $ruc = $request->input('ruc');
+
+        $clients = Client::where('company_ruc', 'like', $ruc . '%')
+            ->limit(10)
+            ->get();
+
+        return response()->json($clients);
     }
 }

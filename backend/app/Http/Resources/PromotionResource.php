@@ -18,7 +18,9 @@ class PromotionResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'promotion_image' => $this->image,
+            'promotion_image' => $this->promotion_image
+                ? asset('storage/' . $this->promotion_image)
+                : null,
             'discount_type' => $this->discount_type,
             'discount_value' => $this->discount_value,
             'start_date' => $this->start_date,
@@ -26,6 +28,8 @@ class PromotionResource extends JsonResource
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+
+            'services'=>$this->services,
         ];
     }
 }

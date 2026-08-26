@@ -15,8 +15,17 @@
     "axios": "^1.19.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
+    "chart.js": "^4.5.1",
+    "datatable": "^2.0.2",
+    "datatables.net-bs5": "^3.0.1",
+    "datatables.net-dt": "^3.0.1",
+    "datatables.net-vue3": "^3.0.7",
+    "jquery": "^4.0.0",
     "pinia": "^4.0.2",
+    "sweetalert2": "^11.26.25",
     "vue": "^3.5.40",
+    "vue-chartjs": "^5.3.4",
+    "vue-multiselect": "^3.5.0",
     "vue-router": "^5.2.0"
   },
   "devDependencies": {

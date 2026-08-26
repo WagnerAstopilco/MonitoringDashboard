@@ -16,10 +16,12 @@ class TransactionDetailResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'client_id' => $this->client_id,
+            'transaction_id'=>$this->transaction_id,
             'service_id' => $this->service_id,
             'promotion_id' => $this->promotion_id,
             'unit_price' => $this->unit_price,
+            'unit_cost' => $this->unit_cost,
+            'profit' => $this->profit,
             'quantity' => $this->quantity,
             'subtotal' => $this->subtotal,
             'created_at' => $this->created_at,

@@ -29,7 +29,7 @@ class StorePromotionRequest extends FormRequest
             'discount_value'=> ['required', 'numeric', 'min:0'],
             'start_date'=> ['required', 'date'],
             'end_date'=> ['required', 'date', 'after_or_equal:start_date'],
-            'status'=> ['required', 'in:active,inactive'],
+            'status'=> ['nullable', 'in:active,inactive'],
             'promotion_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             
             'services' => ['nullable', 'array'],

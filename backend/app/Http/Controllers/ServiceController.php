@@ -7,6 +7,7 @@ use App\Http\Resources\ServiceResource;
 use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -14,6 +15,11 @@ class ServiceController extends Controller
      * Display a listing of the resource.
      */
     public function index()
+    {
+        $services = Service::with('promotions')->get();
+        return ServiceResource::collection($services);
+    }
+    public function publicServices()
     {
         $services = Service::with('promotions')->get();
         return ServiceResource::collection($services);
@@ -31,9 +37,12 @@ class ServiceController extends Controller
         }
         $promotions = $validatedData['promotions'] ?? [];
         unset($validatedData['promotions']);
+        $validatedData['profit'] = $validatedData['price'] - $validatedData['cost'];
+        $validatedData['status'] = "active";
+
         $service = Service::create($validatedData);
         $service->promotions()->sync($promotions);
-        $service['profit'] = $service->price - $service->cost;
+
         return new ServiceResource($service);
     }
 
@@ -45,6 +54,11 @@ class ServiceController extends Controller
         $service->load('promotions');
         return new ServiceResource($service);
     }
+    public function showPublicService(Service $service)
+    {
+        $service->load('promotions');
+        return new ServiceResource($service);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -52,6 +66,7 @@ class ServiceController extends Controller
     public function update(UpdateServiceRequest $request, Service $service)
     {
         $validatedData = $request->validated();
+
         if ($request->hasFile('service_image')) {
 
             if ($service->service_image) {
@@ -63,12 +78,27 @@ class ServiceController extends Controller
 
             $validatedData['service_image'] = $path;
         }
-        $promotionsIds = $validatedData['promotions'] ?? [];
-        unset($validatedData['promotions']);
+
         $service->update($validatedData);
-        $service->promotions()->sync($promotionsIds);
-        $service['profit'] = $service->price - $service->cost;
+
+        $service->profit = $service->price - $service->cost;
+        $service->save();
+
         return new ServiceResource($service->load('promotions'));
+    }
+
+    public function syncPromotions(Request $request, Service $service)
+    {
+        $validated = $request->validate([
+            'promotions' => ['present', 'array'],
+            'promotions.*' => ['exists:promotions,id'],
+        ]);
+
+        $service->promotions()->sync($validated['promotions']);
+
+        return new ServiceResource(
+            $service->load('promotions')
+        );
     }
 
     /**
@@ -76,9 +106,19 @@ class ServiceController extends Controller
      */
     public function changeStatus(Service $service)
     {
-        $service->status = !$service->status;
+        if ($service->status === 'active') {
+            $service->status = 'inactive';
+
+            $service->promotions()->detach();
+        } else {
+            $service->status = 'active';
+        }
+
         $service->save();
-        return new ServiceResource($service);
+
+        $service->refresh();
+
+        return new ServiceResource($service->load('promotions'));
     }
 
     /**
@@ -86,10 +126,10 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        if ($service->transactionDetails()()->exists()) {
+        if ($service->transactionDetails()->exists()) {
             return response()->json(['message' => 'No se puede eliminar el servicio porque tiene transacciones asociadas'], 400);
         }
-        
+
         if ($service->service_image) {
             Storage::disk('public')->delete($service->service_image);
         }

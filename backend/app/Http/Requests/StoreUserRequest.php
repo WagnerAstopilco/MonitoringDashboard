@@ -28,10 +28,10 @@ class StoreUserRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:100'],
             'dni' => ['required', 'digits:8', 'unique:users,dni'],
             'username' => ['required', 'string', 'max:50', 'unique:users,username'],
-            'password' => ['required', Password::default(), 'confirmed'],
+            'password' => ['sometimes', Password::default()],
             'role' => ['required', 'in:admin,employee,visit'],
-            'status' => ['required', 'in:active,inactive'],
-            'must_change_password' => ['required', 'boolean'],
+            'status' => ['sometimes', 'in:active,inactive'],
+            'must_change_password' => ['sometimes', 'boolean'],
         ];
     }
 }

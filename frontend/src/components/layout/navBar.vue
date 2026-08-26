@@ -47,7 +47,7 @@
 
             <li
                 class="nav-item"
-                v-for="item in menu"
+                v-for="item in visibleMenu"
                 :key="item.route"
             >
 
@@ -70,7 +70,7 @@
 
         <!-- Usuario -->
 
-        <div class="dropdown ms-lg-3">
+        <div v-if="auth.user" class="dropdown ms-lg-3">
 
 
             <button
@@ -81,7 +81,7 @@
 
                 <i class="bi bi-person-circle"></i>
 
-                {{ auth.user?.username }}
+                {{ auth.user.username }}
 
             </button>
 
@@ -93,7 +93,7 @@
 
                     <RouterLink
                         class="dropdown-item"
-                        to="/user/profile"
+                        :to="{name: 'profile'}"
                     >
                         Perfil
                     </RouterLink>
@@ -139,41 +139,56 @@
 
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
 
 
 const router = useRouter()
 
 const auth = useAuthStore()
 
+const visibleMenu = computed(() => {
+    return menu.filter(item =>
+        auth.hasPermission(item.permission)
+    )
+})
 
 const menu=[
     {
         name:'Dashboard',
-        route:'/home/dashboard'
+        route:'/home/dashboard',
+        permission:'dashboard.view'
+
     },
     {
         name:'Pizarra',
-        route:'/home/salesboard'
+        route:'/home/salesboard',
+        permission:'salesboard.view'
+
     },
     {
         name:'Clientes',
-        route:'/home/clients'
+        route:'/home/clients',
+        permission:'clients.view'
     },
     {
         name:'Servicios',
-        route:'/home/services'
+        route:'/home/services',
+        permission:'services.view'
     },
     {
         name:'Promociones',
-        route:'/home/promotions'
+        route:'/home/promotions',
+        permission:'promotions.view'
     },
     {
         name:'Transacciones',
-        route:'/home/transactions'
+        route:'/home/transactions',
+        permission:'transactions.view'
     },
     {
         name:'Usuarios',
-        route:'/home/users'
+        route:'/home/users',
+        permission: 'users.view'
     },
 ]
 
