@@ -10,10 +10,17 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/test', function () {
     return response()->json([
         'message' => 'API funcionando'
+    ]);
+});
+Route::get('/test-db', function () {
+    return response()->json([
+        'database' => DB::connection()->getDatabaseName(),
+        'status' => 'Conexión correcta'
     ]);
 });
 
