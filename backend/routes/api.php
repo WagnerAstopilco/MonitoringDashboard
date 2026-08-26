@@ -11,6 +11,11 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\AuthController;
 
+Route::get('/test', function () {
+    return response()->json([
+        'message' => 'API funcionando'
+    ]);
+});
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/services/publicServices', [ServiceController::class, 'publicServices']);
