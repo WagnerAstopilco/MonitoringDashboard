@@ -8,7 +8,11 @@
                     <i class="bi bi-plus"></i>
                     Nuevo</button>
             </div>
-            <div class="table-responsive p-1">
+            <div v-if="!cargando && promotions.length === 0" class="text-center py-5">
+                <i class="bi bi-x-circle display-4 text-danger"></i>
+                <h4 class="mt-3 fst-italic text-muted">Aun no existen promociones para mostrar</h4>
+            </div>
+            <div v-else class="table-responsive p-1">
                 <DataTable :data="promotions" :columns="columns" :show-all-option="false">
                     <template #column-0="props">
                         <span>

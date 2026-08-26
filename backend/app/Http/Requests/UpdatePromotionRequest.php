@@ -30,7 +30,7 @@ class UpdatePromotionRequest extends FormRequest
             'start_date'=> ['sometimes', 'date'],
             'end_date'=> ['sometimes', 'date', 'after_or_equal:start_date'],
             'status'=> ['sometimes', 'in:active,inactive'],
-            'promotion_image' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'promotion_image' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:4096'],
 
             'services' => ['nullable', 'array'],
             'services.*' => ['exists:services,id'],

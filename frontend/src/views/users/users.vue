@@ -361,15 +361,11 @@ const changeUserStatus = async (userId) => {
     }
 
     try {
-        cargando.value = true;
         await UserService.patchUser(userId);
         await showSuccess('Se modifico el estado del usuario con exito');
         await getUsers();
     } catch (err) {
         await showError('No se pudo modificar el estado del usuario')
-    }
-    finally {
-        cargando.value = false;
     }
 }
 

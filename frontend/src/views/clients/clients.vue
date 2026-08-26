@@ -90,9 +90,12 @@
                     </div>
                 </div>
             </div>
-
+            <div v-if="!cargando && clients.length === 0" class="text-center py-5">
+                <i class="bi bi-x-circle display-4 text-danger"></i>
+                <h4 class="mt-3 fst-italic text-muted">Aun no existen clientes para mostrar</h4>
+            </div>
             <!-- dataTable de clientes -->
-            <div class="table-responsive p-1">
+            <div v-else class="table-responsive p-1">
                 <DataTable :data="clients" :columns="columns" :show-all-option="false">
                     <template #column-0="props">
                         <span>
@@ -318,8 +321,10 @@ const columns = [
 ]
 
 const getClientDetails = async (clientId) => {
+    cargando.value=true;
     const response = await ClientService.getClientDetails(clientId);
     client.value = response.data.data;
+    cargando.value=false;
 }
 
 const deleteClient = async (clientId) => {
@@ -329,7 +334,7 @@ const deleteClient = async (clientId) => {
     }
     try{
         await ClientService.deleteClient(clientId);
-        showSuccess('Cliente eliminado correctamente');
+        await showSuccess('Cliente eliminado correctamente');
         getClients();
     }catch(err){
         await showError('No se pudo eliminar al cliente')

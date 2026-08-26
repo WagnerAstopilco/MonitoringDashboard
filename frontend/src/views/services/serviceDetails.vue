@@ -95,9 +95,9 @@
                 <div class="mt-3">
                     <div class="d-flex align-items-center flex-wrap justify-content-between">
                         <h3 class="card-subtitle">Promociones</h3>
-                        <button v-if="auth.hasPermission('services.sync_promotions')" type="button" class="btn btn-success" @click="syncPromotions">Vincular</button>
+                        <button v-if="auth.hasPermission('services.sync_promotions') && promotions.length>0" type="button" class="btn btn-success" @click="syncPromotions">Vincular</button>
                     </div>
-                    <div class="table-responsive p-1">
+                    <div v-if="promotions.length>0" class="table-responsive p-1">
                         <DataTable :data="promotions" :columns="promotionsColumns">
                             <template #column-0="props">
                                 <div class="text-center">
@@ -128,6 +128,7 @@
                             </template>
                         </DataTable>
                     </div>
+                    <span v-else class="d-flex fst-italic justify-content-center">No existen promociones disponibles para vincular actualmente</span>
                 </div>
             </div>
             <div class="d-flex gap-2 mt-3 justify-content-center">

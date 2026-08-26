@@ -8,7 +8,11 @@
                     <i class="bi bi-plus"></i>
                     Nuevo</button>
             </div>
-            <div class="table-responsive p-1">
+            <div v-if="!cargando && services.length === 0" class="text-center py-5">
+                <i class="bi bi-x-circle display-4 text-danger"></i>
+                <h4 class="mt-3 fst-italic text-muted">No existen servicios para mostrar</h4>
+            </div>
+            <div v-else class="table-responsive p-1">
                 <DataTable :data="services" :columns="columns" :show-all-option="false">
                     <template #column-0="props">
                         <span>
@@ -138,6 +142,7 @@ const deleteService = async (serviceId) => {
     try {
         await ServicesService.deleteService(serviceId);
         await showSuccess('Servicio eliminado correctamente')
+        getServices();
     } catch (err) {
         await showError('No se puede eliminar el servicio porque cuenta con transacciones vinculadas')
     }

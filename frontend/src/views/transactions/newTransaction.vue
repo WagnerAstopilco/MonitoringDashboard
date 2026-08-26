@@ -6,466 +6,232 @@
             <h1 class="card-title fw-bold">Nueva transacción</h1>
 
             <div class="card-body w-lg-80 w-md-90 w-100">
-
                 <h3 class="card-subtitle">Datos de la transacción</h3>
 
                 <form @submit.prevent>
-
                     <!-- ===================================================== -->
                     <!-- SECCIÓN 1: DATOS DE LA TRANSACCIÓN -->
                     <!-- ===================================================== -->
 
                     <div class="row">
-
                         <!-- Tipo de transacción -->
                         <div class="form-group col-md-6 col-lg-3 p-2">
-                            <label for="transaction_type">
-                                Tipo de transacción
-                            </label>
+                            <label for="transaction_type"> Tipo de transacción </label>
 
-                            <select
-                                id="transaction_type"
-                                class="form-select"
-                                v-model="transactionForm.transaction_type"
-                                :disabled="isEmployee"
-                                required
-                            >
-                                <option value="" disabled>
-                                    Selecciona un tipo
-                                </option>
+                            <select id="transaction_type" class="form-select" v-model="transactionForm.transaction_type"
+                                :disabled="isEmployee" required>
+                                <option value="" disabled>Selecciona un tipo</option>
 
-                                <option value="income">
-                                    Ingreso
-                                </option>
+                                <option value="income">Ingreso</option>
 
-                                <option value="expense">
-                                    Egreso
-                                </option>
+                                <option value="expense">Egreso</option>
                             </select>
                         </div>
-
 
                         <!-- Responsable -->
                         <div class="form-group col-md-6 col-lg-3 p-2">
-                            <label for="responsible">
-                                Responsable
-                            </label>
+                            <label for="responsible"> Responsable </label>
 
-                            <select
-                                id="responsible"
-                                class="form-select"
-                                v-model="transactionForm.responsible"
-                                :disabled="isEmployee"
-                                required
-                            >
-                                <option value="" disabled>
-                                    Selecciona un responsable
-                                </option>
+                            <select id="responsible" class="form-select" v-model="transactionForm.responsible"
+                                :disabled="isEmployee" required>
+                                <option value="" disabled>Selecciona un responsable</option>
 
-                                <option value="edgar">
-                                    Edgar
-                                </option>
+                                <option value="edgar">Edgar</option>
 
-                                <option value="jorge">
-                                    Jorge
-                                </option>
+                                <option value="jorge">Jorge</option>
                             </select>
                         </div>
 
-
                         <!-- Fecha de transacción -->
                         <div class="form-group col-md-6 col-lg-3 p-2">
-                            <label for="transaction_date">
-                                Fecha de transacción
-                            </label>
+                            <label for="transaction_date"> Fecha de transacción </label>
 
-                            <input
-                                id="transaction_date"
-                                class="form-control"
-                                type="date"
-                                v-model="transactionForm.transaction_date"
-                                required
-                                disabled
-                            />
+                            <input id="transaction_date" class="form-control" type="date"
+                                v-model="transactionForm.transaction_date" required disabled />
                         </div>
-
 
                         <!-- Fecha de entrega -->
-                        <div
-                            v-if="!isExpense"
-                            class="form-group col-md-6 col-lg-3 p-2"
-                        >
-                            <label for="delivery_date">
-                                Fecha de entrega
-                            </label>
+                        <div v-if="!isExpense" class="form-group col-md-6 col-lg-3 p-2">
+                            <label for="delivery_date"> Fecha de entrega </label>
 
-                            <input
-                                id="delivery_date"
-                                class="form-control"
-                                type="date"
-                                v-model="transactionForm.delivery_date"
-                                :required="!isExpense"
-                                :min="transactionForm.transaction_date"
-                            />
+                            <input id="delivery_date" class="form-control" type="date"
+                                v-model="transactionForm.delivery_date" :required="!isExpense"
+                                :min="transactionForm.transaction_date" />
                         </div>
-
 
                         <!-- Monto manual para egreso -->
-                        <div
-                            v-if="isExpense"
-                            class="form-group col-md-6 col-lg-3 p-2"
-                        >
-                            <label for="amount">
-                                Monto del egreso
-                            </label>
+                        <div v-if="isExpense" class="form-group col-md-6 col-lg-3 p-2">
+                            <label for="amount"> Monto del egreso </label>
 
-                            <input
-                                id="amount"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                class="form-control"
-                                v-model.number="transactionForm.amount"
-                                required
-                            />
+                            <input id="amount" type="number" step="0.01" min="0" class="form-control"
+                                v-model.number="transactionForm.amount" required />
                         </div>
-
 
                         <!-- Anotaciones -->
                         <div class="form-group col-md-12 col-lg-6 p-2">
-                            <label for="annotations">
-                                Anotaciones
-                            </label>
+                            <label for="annotations"> Anotaciones </label>
 
-                            <textarea
-                                id="annotations"
-                                class="form-control"
-                                v-model="transactionForm.annotations"
-                                rows="2"
-                                placeholder="Ingrese una descripción o anotación"
-                            ></textarea>
+                            <textarea id="annotations" class="form-control" v-model="transactionForm.annotations"
+                                rows="2" placeholder="Ingrese una descripción o anotación"></textarea>
                         </div>
-
                     </div>
-
 
                     <!-- ===================================================== -->
                     <!-- SECCIÓN 2: CLIENTE -->
                     <!-- Solo para ingresos -->
                     <!-- ===================================================== -->
 
-                    <div
-                        v-if="!isExpense"
-                        class="mt-3"
-                    >
-                        <h3 class="card-subtitle">
-                            Datos del cliente
-                        </h3>
+                    <div v-if="!isExpense" class="mt-3">
+                        <h3 class="card-subtitle">Datos del cliente</h3>
 
                         <div class="row">
-
                             <div class="form-group col-lg-4">
-                                <label for="company_ruc">
-                                    RUC
-                                </label>
+                                <label for="company_ruc"> RUC </label>
 
-                                <input
-                                    id="company_ruc"
-                                    class="form-control"
-                                    type="text"
-                                    v-model="clientForm.company_ruc"
-                                    placeholder="Ingrese el RUC del cliente"
-                                    :disabled="clientSelected"
-                                    @input="onRucInput"
-                                    autocomplete="off"
-                                />
+                                <input id="company_ruc" class="form-control" type="text"
+                                    v-model="clientForm.company_ruc" placeholder="Ingrese el RUC del cliente"
+                                    :disabled="clientSelected" @input="onRucInput" autocomplete="off" />
 
-                                <ul
-                                    v-if="clientMatches.length && !clientSelected"
-                                    class="list-group position-absolute"
-                                    style="z-index: 10;"
-                                >
-                                    <li
-                                        v-for="match in clientMatches"
-                                        :key="match.id"
-                                        class="list-group-item list-group-item-action"
-                                        style="cursor: pointer;"
-                                        @click="selectClientMatch(match)"
-                                    >
+                                <ul v-if="clientMatches.length && !clientSelected" class="list-group position-absolute"
+                                    style="z-index: 10">
+                                    <li v-for="match in clientMatches" :key="match.id"
+                                        class="list-group-item list-group-item-action" style="cursor: pointer"
+                                        @click="selectClientMatch(match)">
                                         {{ match.company_ruc }} —
                                         {{ match.name }}
 
-                                        <span
-                                            v-if="match.company_name"
-                                            class="text-muted"
-                                        >
+                                        <span v-if="match.company_name" class="text-muted">
                                             ({{ match.company_name }})
                                         </span>
                                     </li>
                                 </ul>
 
-                                <small
-                                    v-if="
-                                        rucSearched &&
-                                        !clientMatches.length &&
-                                        !clientSelected
-                                    "
-                                    class="text-muted"
-                                >
-                                    Sin coincidencias, complete los datos para
-                                    registrar un cliente nuevo.
+                                <small v-if="rucSearched && !clientMatches.length && !clientSelected"
+                                    class="text-muted">
+                                    Sin coincidencias, complete los datos para registrar un cliente nuevo.
                                 </small>
                             </div>
 
-
                             <div class="form-group col-lg-4">
-                                <label for="client_company_name">
-                                    Razón social
-                                </label>
+                                <label for="client_company_name"> Razón social </label>
 
-                                <input
-                                    id="client_company_name"
-                                    class="form-control"
-                                    type="text"
-                                    v-model="clientForm.company_name"
-                                    :disabled="clientSelected"
-                                />
+                                <input id="client_company_name" class="form-control" type="text"
+                                    v-model="clientForm.company_name" :disabled="clientSelected" />
                             </div>
 
-
                             <div class="form-group col-lg-4">
-                                <label for="client_name">
-                                    Nombre del responsable
-                                </label>
+                                <label for="client_name"> Nombre del responsable </label>
 
-                                <input
-                                    id="client_name"
-                                    class="form-control"
-                                    type="text"
-                                    v-model="clientForm.name"
-                                    :disabled="
-                                        clientSelected &&
-                                        !addingRepresentative
-                                    "
-                                />
+                                <input id="client_name" class="form-control" type="text" v-model="clientForm.name"
+                                    :disabled="clientSelected && !addingRepresentative" />
                             </div>
-
                         </div>
-
 
                         <div class="row">
-
                             <div class="form-group col-lg-4">
-                                <label for="client_phone">
-                                    Teléfono
-                                </label>
+                                <label for="client_phone"> Teléfono </label>
 
-                                <input
-                                    id="client_phone"
-                                    class="form-control"
-                                    type="text"
-                                    v-model="clientForm.phone"
-                                    :disabled="
-                                        clientSelected &&
-                                        !addingRepresentative
-                                    "
-                                />
+                                <input id="client_phone" class="form-control" type="text" v-model="clientForm.phone"
+                                    :disabled="clientSelected && !addingRepresentative" />
                             </div>
 
-
                             <div class="form-group col-lg-4">
-                                <label for="client_email">
-                                    Email
-                                </label>
+                                <label for="client_email"> Email </label>
 
-                                <input
-                                    id="client_email"
-                                    class="form-control"
-                                    type="email"
-                                    v-model="clientForm.email"
-                                    :disabled="
-                                        clientSelected &&
-                                        !addingRepresentative
-                                    "
-                                />
+                                <input id="client_email" class="form-control" type="email" v-model="clientForm.email"
+                                    :disabled="clientSelected && !addingRepresentative" />
                             </div>
 
-
                             <div class="form-group col-lg-4">
-                                <label for="client_address">
-                                    Dirección
-                                </label>
+                                <label for="client_address"> Dirección </label>
 
-                                <input
-                                    id="client_address"
-                                    class="form-control"
-                                    type="text"
-                                    v-model="clientForm.address"
-                                    :disabled="
-                                        clientSelected &&
-                                        !addingRepresentative
-                                    "
-                                />
+                                <input id="client_address" class="form-control" type="text" v-model="clientForm.address"
+                                    :disabled="clientSelected && !addingRepresentative" />
                             </div>
-
                         </div>
 
-
-                        <div
-                            v-if="clientSelected"
-                            class="d-flex gap-2 mt-2"
-                        >
-                            <button
-                                type="button"
-                                class="btn btn-outline-primary btn-sm"
-                                @click="addRepresentative"
-                            >
+                        <div v-if="clientSelected" class="d-flex gap-2 mt-2">
+                            <button type="button" class="btn btn-outline-primary btn-sm" @click="addRepresentative">
                                 <i class="bi bi-person-plus me-1"></i>
                                 Agregar representante
                             </button>
 
-                            <button
-                                type="button"
-                                class="btn btn-outline-secondary btn-sm"
-                                @click="resetClientSelection"
-                            >
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                @click="resetClientSelection">
                                 <i class="bi bi-search me-1"></i>
                                 Buscar otro RUC
                             </button>
                         </div>
-
                     </div>
-
 
                     <!-- ===================================================== -->
                     <!-- SECCIÓN 3: PROMOCIÓN -->
                     <!-- Solo para ingresos -->
                     <!-- ===================================================== -->
 
-                    <div
-                        v-if="!isExpense"
-                        class="modulePromotions p-2 mt-3"
-                    >
-                        <h3 class="card-subtitle">
-                            Promociones disponibles
-                        </h3>
-
-                        <Multiselect
-                            v-model="selectedPromotion"
-                            :options="promotions"
-                            :searchable="true"
-                            :close-on-select="true"
-                            :allow-empty="true"
-                            placeholder="Buscar promoción..."
-                            label="name"
-                            track-by="id"
-                            select-label=""
-                            selected-label=""
-                            deselect-label=""
-                            no-options="No hay promociones disponibles"
-                            no-result="No se encontraron promociones"
-                        >
-
+                    <div v-if="!isExpense" class="modulePromotions p-2 mt-3">
+                        <h3 class="card-subtitle">Promociones disponibles</h3>
+                        <div v-if="promotions.length === 0" class="text-center py-5">
+                            <small class="fst-italic text-muted">No existen promociones disponibles para
+                                vincular</small>
+                        </div>
+                        <Multiselect v-else v-model="selectedPromotion" :options="promotions" :searchable="true"
+                            :close-on-select="true" :allow-empty="true" placeholder="Buscar promoción..." label="name"
+                            track-by="id" select-label="" selected-label="" deselect-label=""
+                            no-options="No hay promociones disponibles" no-result="No se encontraron promociones">
                             <template #option="{ option }">
-                                <div
-                                    class="d-flex justify-content-between align-items-center w-100"
-                                >
+                                <div class="d-flex justify-content-between align-items-center w-100">
                                     <span>
                                         {{ option.name }}
                                     </span>
 
-                                    <span
-                                        class="fw-bold text-danger ms-3"
-                                    >
-                                        S/ -{{
-                                            Number(
-                                                option.discount_value
-                                            ).toFixed(2)
-                                        }}
+                                    <span class="fw-bold text-danger ms-3">
+                                        S/ -{{ Number(option.discount_value).toFixed(2) }}
                                     </span>
                                 </div>
                             </template>
-
 
                             <template #singleLabel="{ option }">
                                 <span>
                                     {{ option.name }}
 
-                                    <strong
-                                        class="ms-2 text-danger"
-                                    >
-                                        S/ -{{
-                                            Number(
-                                                option.discount_value
-                                            ).toFixed(2)
-                                        }}
+                                    <strong class="ms-2 text-danger">
+                                        S/ -{{ Number(option.discount_value).toFixed(2) }}
                                     </strong>
                                 </span>
                             </template>
-
                         </Multiselect>
                     </div>
-
 
                     <!-- ===================================================== -->
                     <!-- SECCIÓN 4: SERVICIOS -->
                     <!-- Solo para ingresos -->
                     <!-- ===================================================== -->
 
-                    <div
-                        v-if="!isExpense"
-                        class="moduleServices p-2 mt-3"
-                    >
+                    <div v-if="!isExpense" class="moduleServices p-2 mt-3">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between">
+                            <h3 class="card-subtitle">Servicios</h3>
 
-                        <div
-                            class="d-flex flex-wrap align-items-center justify-content-between"
-                        >
-                            <h3 class="card-subtitle">
-                                Servicios
-                            </h3>
-
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                @click="openServiceModal"
-                            >
+                            <button type="button" class="btn btn-primary" @click="openServiceModal">
                                 Agregar servicio
                             </button>
                         </div>
 
-
                         <div>
-
                             <div class="table-responsive">
-
-                                <table
-                                    class="table table-bordered mt-2"
-                                    v-if="selectedServices.length"
-                                >
-
+                                <table class="table table-bordered mt-2" v-if="selectedServices.length">
                                     <thead>
                                         <tr>
                                             <th>Servicio</th>
-                                            <th style="width: 140px;">
-                                                Precio unitario
-                                            </th>
-                                            <th style="width: 140px;">
-                                                Cantidad
-                                            </th>
-                                            <th style="width: 140px;">
-                                                Subtotal
-                                            </th>
-                                            <th style="width: 80px;"></th>
+                                            <th style="width: 140px">Precio unitario</th>
+                                            <th style="width: 140px">Cantidad</th>
+                                            <th style="width: 140px">Subtotal</th>
+                                            <th style="width: 80px"></th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-
-                                        <tr
-                                            v-for="item in selectedServices"
-                                            :key="item.service_id"
-                                        >
-
+                                        <tr v-for="item in selectedServices" :key="item.service_id">
                                             <td>
                                                 {{ item.name }}
                                             </td>
@@ -475,57 +241,27 @@
                                             </td>
 
                                             <td>
-                                                <input
-                                                    type="number"
-                                                    min="1"
-                                                    class="form-control form-control-sm"
-                                                    v-model.number="item.quantity"
-                                                    @input="
-                                                        normalizeQuantity(item)
-                                                    "
-                                                />
+                                                <input type="number" min="1" class="form-control form-control-sm"
+                                                    v-model.number="item.quantity" @input="normalizeQuantity(item)" />
                                             </td>
 
                                             <td>
-                                                {{
-                                                    formatCurrency(
-                                                        subtotalFor(item)
-                                                    )
-                                                }}
+                                                {{ formatCurrency(subtotalFor(item)) }}
                                             </td>
 
                                             <td class="text-center">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-sm btn-outline-danger"
-                                                    @click="
-                                                        removeService(
-                                                            item.service_id
-                                                        )
-                                                    "
-                                                >
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                    @click="removeService(item.service_id)">
                                                     &times;
                                                 </button>
                                             </td>
-
                                         </tr>
-
                                     </tbody>
-
                                 </table>
 
-
-                                <p
-                                    v-else
-                                    class="fst-italic"
-                                >
-                                    Aún no se han agregado servicios.
-                                </p>
-
+                                <p v-else class="fst-italic">Aún no se han agregado servicios.</p>
                             </div>
-
                         </div>
-
 
                         <div class="d-flex justify-content-end">
                             <h6>
@@ -534,17 +270,12 @@
                             </h6>
                         </div>
 
-
-                        <div
-                            class="d-flex justify-content-end"
-                            v-if="selectedPromotion"
-                        >
+                        <div class="d-flex justify-content-end" v-if="selectedPromotion">
                             <h6>
                                 Descuento:
                                 {{ formatCurrency(discount) }}
                             </h6>
                         </div>
-
 
                         <div class="d-flex justify-content-end">
                             <h3>
@@ -552,130 +283,59 @@
                                 {{ formatCurrency(total) }}
                             </h3>
                         </div>
-
                     </div>
-
 
                     <!-- ===================================================== -->
                     <!-- ERROR -->
                     <!-- ===================================================== -->
 
-                    <p
-                        v-if="error"
-                        class="text-danger mt-3"
-                    >
+                    <p v-if="error" class="text-danger mt-3">
                         {{ error }}
                     </p>
-
 
                     <!-- ===================================================== -->
                     <!-- BOTONES -->
                     <!-- ===================================================== -->
 
-                    <div
-                        class="d-flex gap-2 mt-3 justify-content-center"
-                    >
+                    <div class="d-flex gap-2 mt-3 justify-content-center">
+                        <button type="button" class="btn btn-danger" @click="goBack">Volver</button>
 
-                        <button
-                            type="button"
-                            class="btn btn-danger"
-                            @click="goBack"
-                        >
-                            Volver
-                        </button>
+                        <button type="button" class="btn btn-primary" @click="registerSale">Registrar</button>
 
-
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            @click="registerSale"
-                        >
-                            Registrar
-                        </button>
-
-
-                        <button
-                            v-if="
-                                auth.hasPermission('payments.create') &&
-                                !isExpense
-                            "
-                            type="button"
-                            class="btn btn-success"
-                            @click="giveAdvance"
-                        >
+                        <button v-if="auth.hasPermission('payments.create') && !isExpense" type="button"
+                            class="btn btn-success" @click="giveAdvance">
                             Dar adelanto
                         </button>
-
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>
-
 
     <!-- ============================================================= -->
     <!-- MODAL: SELECCIONAR SERVICIOS -->
     <!-- ============================================================= -->
 
     <div v-if="showServiceModal">
-
-        <div
-            class="modal d-block"
-            tabindex="-1"
-            style="background: rgba(0,0,0,0.5);"
-        >
-
+        <div class="modal d-block" tabindex="-1" style="background: rgba(0, 0, 0, 0.5)">
             <div class="modal-dialog modal-dialog-centered">
-
                 <div class="modal-content">
-
                     <div class="modal-header">
+                        <h2 class="modal-title">Servicios disponibles</h2>
 
-                        <h2 class="modal-title">
-                            Servicios disponibles
-                        </h2>
-
-                        <button
-                            type="button"
-                            class="btn-close"
-                            @click="closeServiceModal"
-                        ></button>
-
+                        <button type="button" class="btn-close" @click="closeServiceModal"></button>
                     </div>
 
-
                     <div class="modal-body">
-
                         <div class="table-responsive">
-
-                            <DataTable
-                                :data="activeServices"
-                                :columns="serviceModalColumns"
-                            >
-
+                            <DataTable :data="activeServices" :columns="serviceModalColumns">
                                 <template #column-0="props">
                                     <div class="text-center">
-
-                                        <input
-                                            type="checkbox"
-                                            class="form-check-input"
-                                            :checked="
-                                                tempSelectedServiceIds.includes(
-                                                    props.rowData.id
-                                                )
-                                            "
-                                            @change="
-                                                toggleTempService(
-                                                    props.rowData.id
-                                                )
-                                            "
-                                        />
-
+                                        <input type="checkbox" class="form-check-input"
+                                            :checked="tempSelectedServiceIds.includes(props.rowData.id)"
+                                            @change="toggleTempService(props.rowData.id)" />
                                     </div>
                                 </template>
-
 
                                 <template #column-1="props">
                                     <span>
@@ -683,279 +343,164 @@
                                     </span>
                                 </template>
 
-
                                 <template #column-2="props">
                                     <span>
-                                        {{
-                                            formatCurrency(
-                                                props.rowData.price
-                                            )
-                                        }}
+                                        {{ formatCurrency(props.rowData.price) }}
                                     </span>
                                 </template>
-
                             </DataTable>
-
                         </div>
-
                     </div>
 
-
                     <div class="modal-footer justify-content-center">
-
-                        <button
-                            type="button"
-                            class="btn btn-success"
-                            @click="confirmAddServices"
-                        >
+                        <button type="button" class="btn btn-success" @click="confirmAddServices">
                             Agregar
                         </button>
 
-                        <button
-                            type="button"
-                            class="btn btn-danger"
-                            @click="closeServiceModal"
-                        >
+                        <button type="button" class="btn btn-danger" @click="closeServiceModal">
                             Cancelar
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 
     <!-- ============================================================= -->
     <!-- MODAL: REGISTRAR PAGO / ADELANTO -->
     <!-- ============================================================= -->
 
     <div v-if="showPaymentModal">
-
-        <div
-            class="modal d-block"
-            tabindex="-1"
-            style="background: rgba(0,0,0,0.5);"
-        >
-
+        <div class="modal d-block" tabindex="-1" style="background: rgba(0, 0, 0, 0.5)">
             <div class="modal-dialog">
-
                 <div class="modal-content">
-
                     <div class="modal-header">
-                        <h5 class="modal-title">
-                            Registrar pago
-                        </h5>
+                        <h5 class="modal-title">Registrar pago</h5>
                     </div>
 
-
                     <div class="modal-body">
-
                         <div class="form-group">
-                            <label for="payment_method_id">
-                                Método de pago
-                            </label>
+                            <label for="payment_method_id"> Método de pago </label>
 
-                            <select
-                                id="payment_method_id"
-                                class="form-select"
-                                v-model="paymentForm.payment_method_id"
-                                required
-                            >
-                                <option
-                                    value=""
-                                    disabled
-                                >
-                                    Seleccione un método
-                                </option>
+                            <select id="payment_method_id" class="form-select" v-model="paymentForm.payment_method_id"
+                                required>
+                                <option value="" disabled>Seleccione un método</option>
 
-                                <option
-                                    v-for="method in paymentMethods"
-                                    :key="method.id"
-                                    :value="method.id"
-                                >
+                                <option v-for="method in paymentMethods" :key="method.id" :value="method.id">
                                     {{ method.name }}
                                 </option>
                             </select>
                         </div>
 
-
                         <div class="form-group">
-                            <label for="payment_amount">
-                                Monto
-                            </label>
+                            <label for="payment_amount"> Monto </label>
 
-                            <input
-                                id="payment_amount"
-                                type="number"
-                                step="0.01"
-                                min="0.01"
-                                class="form-control"
-                                v-model.number="paymentForm.amount"
-                                required
-                            />
+                            <input id="payment_amount" type="number" step="0.01" min="0.01" class="form-control"
+                                v-model.number="paymentForm.amount" required />
                         </div>
 
-
                         <div class="form-group">
-                            <label for="payment_type">
-                                Tipo de pago
-                            </label>
+                            <label for="payment_type"> Tipo de pago </label>
 
-                            <select
-                                id="payment_type"
-                                class="form-select"
-                                v-model="paymentForm.payment_type"
-                                required
-                            >
-                                <option value="advance">
-                                    Adelanto
-                                </option>
+                            <select id="payment_type" class="form-select" v-model="paymentForm.payment_type" required>
+                                <option value="advance">Adelanto</option>
 
-                                <option value="balance">
-                                    Saldo
-                                </option>
+                                <option value="balance">Saldo</option>
 
-                                <option value="full">
-                                    Pago completo
-                                </option>
+                                <option value="full">Pago completo</option>
                             </select>
                         </div>
 
-
-                        <p
-                            v-if="paymentError"
-                            class="text-danger"
-                        >
+                        <p v-if="paymentError" class="text-danger">
                             {{ paymentError }}
                         </p>
-
                     </div>
-
 
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @click="cancelPayment">Cancelar</button>
 
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            @click="cancelPayment"
-                        >
-                            Cancelar
-                        </button>
-
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            @click="savePayment"
-                        >
-                            Guardar
-                        </button>
-
+                        <button type="button" class="btn btn-primary" @click="savePayment">Guardar</button>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </template>
 
-
 <script setup>
+import Preloader from "@/components/layout/preloader.vue";
+import DataTable from "@/components/tables/dataTable.vue";
 
-import Preloader from '@/components/layout/preloader.vue'
-import DataTable from '@/components/tables/dataTable.vue'
+import ClientService from "@/services/ClientService";
+import TransactionService from "@/services/transactionService";
+import ServicesService from "@/services/ServicesService";
+import PromotionsService from "@/services/PromotionService";
+import PaymentMethodService from "@/services/PaymentMethodService";
 
-import ClientService from '@/services/ClientService'
-import TransactionService from '@/services/transactionService'
-import ServicesService from '@/services/ServicesService'
-import PromotionsService from '@/services/PromotionService'
-import PaymentMethodService from '@/services/PaymentMethodService'
+import { computed, onMounted, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 
-import { computed, onMounted, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.css";
 
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.css'
-
-import { showSuccess } from '@/utils/sweetAlert'
-import { useAuthStore } from '@/stores/auth'
-
+import { showSuccess } from "@/utils/sweetAlert";
+import { useAuthStore } from "@/stores/auth";
 
 // =============================================================
 // CONFIGURACIÓN
 // =============================================================
 
-const router = useRouter()
-const cargando = ref(false)
-const error = ref('')
+const router = useRouter();
+const cargando = ref(false);
+const error = ref("");
 
-const auth = useAuthStore()
-
+const auth = useAuthStore();
 
 // =============================================================
 // USUARIO / ROLES
 // =============================================================
 
 // El role viene directamente en el usuario
-const isAdmin = computed(() => auth.user?.role === 'admin')
+const isAdmin = computed(() => auth.user?.role === "admin");
 
-const isEmployee = computed(() => auth.user?.role === 'employee')
-
+const isEmployee = computed(() => auth.user?.role === "employee");
 
 // Tipo de transacción
-const isExpense = computed(
-    () => transactionForm.value.transaction_type === 'expense'
-)
-
+const isExpense = computed(() => transactionForm.value.transaction_type === "expense");
 
 // =============================================================
 // FECHA
 // =============================================================
 
-const todayIso = () => new Date().toISOString().slice(0, 10)
-
+const todayIso = () => new Date().toISOString().slice(0, 10);
 
 // =============================================================
 // SECCIÓN 1: DATOS DE LA TRANSACCIÓN
 // =============================================================
 
 const transactionForm = ref({
-
-    transaction_type: '',
+    transaction_type: "",
 
     transaction_date: todayIso(),
 
-    delivery_date: '',
+    delivery_date: "",
 
-    responsible: '',
+    responsible: "",
 
-    annotations: '',
+    annotations: "",
 
     amount: null,
-
-})
-
+});
 
 // =============================================================
 // CONFIGURACIÓN INICIAL SEGÚN EL ROL
 // =============================================================
 
 if (isEmployee.value) {
+    transactionForm.value.transaction_type = "income";
 
-    transactionForm.value.transaction_type = 'income'
-
-    transactionForm.value.responsible = 'edgar'
-
+    transactionForm.value.responsible = "edgar";
 }
-
 
 // =============================================================
 // CUANDO CAMBIA EL TIPO DE TRANSACCIÓN
@@ -965,552 +510,355 @@ watch(
     () => transactionForm.value.transaction_type,
 
     (type) => {
-
-        if (type === 'expense') {
-
+        if (type === "expense") {
             // Limpiar cliente
-            selectedClientId.value = null
+            selectedClientId.value = null;
 
-            clientMatches.value = []
+            clientMatches.value = [];
 
-            rucSearched.value = false
+            rucSearched.value = false;
 
-            addingRepresentative.value = false
+            addingRepresentative.value = false;
 
             clientForm.value = {
-                name: '',
-                phone: '',
-                email: '',
-                address: '',
-                company_name: '',
-                company_ruc: '',
-            }
-
+                name: "",
+                phone: "",
+                email: "",
+                address: "",
+                company_name: "",
+                company_ruc: "",
+            };
 
             // Limpiar promoción
-            selectedPromotion.value = null
-            selectedPromotionId.value = null
-
+            selectedPromotion.value = null;
+            selectedPromotionId.value = null;
 
             // Limpiar servicios
-            selectedServices.value = []
-
+            selectedServices.value = [];
 
             // Limpiar fecha de entrega
-            transactionForm.value.delivery_date = ''
-
+            transactionForm.value.delivery_date = "";
         }
-
-    }
-)
-
+    },
+);
 
 // =============================================================
 // SECCIÓN 2: CLIENTE
 // =============================================================
 
 const clientForm = ref({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+    company_name: "",
+    company_ruc: "",
+});
 
-    name: '',
-    phone: '',
-    email: '',
-    address: '',
-    company_name: '',
-    company_ruc: '',
+const clientMatches = ref([]);
 
-})
+const selectedClientId = ref(null);
 
-const clientMatches = ref([])
+const clientSelected = computed(() => selectedClientId.value !== null);
 
-const selectedClientId = ref(null)
+const addingRepresentative = ref(false);
 
-const clientSelected = computed(
-    () => selectedClientId.value !== null
-)
+const rucSearched = ref(false);
 
-const addingRepresentative = ref(false)
-
-const rucSearched = ref(false)
-
-let rucSearchTimeout = null
-
+let rucSearchTimeout = null;
 
 const onRucInput = () => {
+    clearTimeout(rucSearchTimeout);
 
-    clearTimeout(rucSearchTimeout)
+    rucSearched.value = false;
 
-    rucSearched.value = false
+    clientMatches.value = [];
 
-    clientMatches.value = []
-
-    const ruc = clientForm.value.company_ruc.trim()
+    const ruc = clientForm.value.company_ruc.trim();
 
     if (ruc.length < 3) {
-        return
+        return;
     }
 
     rucSearchTimeout = setTimeout(async () => {
-
         try {
+            const response = await ClientService.searchByRuc(ruc);
 
-            const response =
-                await ClientService.searchByRuc(ruc)
-
-            clientMatches.value =
-                response.data.data ?? response.data
-
+            clientMatches.value = response.data.data ?? response.data;
         } catch (err) {
-
-            console.error(
-                'Error al buscar cliente por RUC:',
-                err
-            )
-
+            console.error("Error al buscar cliente por RUC:", err);
         } finally {
-
-            rucSearched.value = true
-
+            rucSearched.value = true;
         }
-
-    }, 400)
-}
-
+    }, 400);
+};
 
 const selectClientMatch = (match) => {
-
-    selectedClientId.value = match.id
+    selectedClientId.value = match.id;
 
     clientForm.value = {
+        name: match.name ?? "",
 
-        name: match.name ?? '',
+        phone: match.phone ?? "",
 
-        phone: match.phone ?? '',
+        email: match.email ?? "",
 
-        email: match.email ?? '',
+        address: match.address ?? "",
 
-        address: match.address ?? '',
+        company_name: match.company_name ?? "",
 
-        company_name: match.company_name ?? '',
+        company_ruc: match.company_ruc ?? "",
+    };
 
-        company_ruc: match.company_ruc ?? '',
-
-    }
-
-    clientMatches.value = []
-
-}
-
+    clientMatches.value = [];
+};
 
 const addRepresentative = () => {
+    clientForm.value.name = "";
+    clientForm.value.phone = "";
+    clientForm.value.email = "";
+    clientForm.value.address = "";
 
-    clientForm.value.name = ''
-    clientForm.value.phone = ''
-    clientForm.value.email = ''
-    clientForm.value.address = ''
-
-    addingRepresentative.value = true
-
-}
-
+    addingRepresentative.value = true;
+};
 
 const resetClientSelection = () => {
+    addingRepresentative.value = false;
 
-    addingRepresentative.value = false
+    selectedClientId.value = null;
 
-    selectedClientId.value = null
+    clientMatches.value = [];
 
-    clientMatches.value = []
-
-    rucSearched.value = false
+    rucSearched.value = false;
 
     clientForm.value = {
-
-        name: '',
-        phone: '',
-        email: '',
-        address: '',
-        company_name: '',
-        company_ruc: '',
-
-    }
-
-}
-
+        name: "",
+        phone: "",
+        email: "",
+        address: "",
+        company_name: "",
+        company_ruc: "",
+    };
+};
 
 // Devuelve el client_id a utilizar
 const ensureClientId = async () => {
-
     // Si no hay datos de cliente,
     // simplemente no se crea un cliente.
-    if (
-        !clientSelected.value &&
-        !clientForm.value.name &&
-        !clientForm.value.company_ruc
-    ) {
-        return null
+    if (!clientSelected.value && !clientForm.value.name && !clientForm.value.company_ruc) {
+        return null;
     }
-
 
     if (selectedClientId.value) {
-        return selectedClientId.value
+        return selectedClientId.value;
     }
 
+    const response = await ClientService.createClient({
+        name: clientForm.value.name,
 
-    const response =
-        await ClientService.createClient({
+        phone: clientForm.value.phone,
 
-            name: clientForm.value.name,
+        email: clientForm.value.email,
 
-            phone: clientForm.value.phone,
+        address: clientForm.value.address,
 
-            email: clientForm.value.email,
+        company_name: clientForm.value.company_name,
 
-            address: clientForm.value.address,
+        company_ruc: clientForm.value.company_ruc,
+    });
 
-            company_name: clientForm.value.company_name,
-
-            company_ruc: clientForm.value.company_ruc,
-
-        })
-
-
-    return response.data.data?.id ?? response.data.id
-
-}
-
+    return response.data.data?.id ?? response.data.id;
+};
 
 // =============================================================
 // SECCIÓN 3: PROMOCIONES
 // =============================================================
 
-const promotions = ref([])
+const promotions = ref([]);
 
-const selectedPromotion = ref(null)
+const selectedPromotion = ref(null);
 
-const selectedPromotionId = ref(null)
-
+const selectedPromotionId = ref(null);
 
 const getActivePromotions = async () => {
-
     try {
+        const response = await PromotionsService.getPromotions();
 
-        const response =
-            await PromotionsService.getPromotions()
+        const all = response.data.data ?? response.data;
 
-        const all =
-            response.data.data ?? response.data
-
-        promotions.value =
-            all.filter(
-                (p) =>
-                    p.status === 'active' &&
-                    p.discount_type === 'fixed'
-            )
-
+        promotions.value = all.filter((p) => p.status === "active" && p.discount_type === "fixed");
     } catch (err) {
+        console.error("Error al cargar promociones:", err);
 
-        console.error(
-            'Error al cargar promociones:',
-            err
-        )
-
-        error.value =
-            'No se pudieron cargar las promociones'
-
+        error.value = "No se pudieron cargar las promociones";
     }
-
-}
-
+};
 
 // =============================================================
 // SECCIÓN 4: SERVICIOS
 // =============================================================
 
-const allServices = ref([])
+const allServices = ref([]);
 
-const selectedServices = ref([])
+const selectedServices = ref([]);
 
-const showServiceModal = ref(false)
+const showServiceModal = ref(false);
 
-const tempSelectedServiceIds = ref([])
+const tempSelectedServiceIds = ref([]);
 
-
-const activeServices = computed(() =>
-    allServices.value.filter(
-        (s) => s.status === 'active'
-    )
-)
-
+const activeServices = computed(() => allServices.value.filter((s) => s.status === "active"));
 
 const serviceModalColumns = [
-
     {
-        data: 'id',
-        title: 'Selección',
-        className: 'text-center'
+        data: "id",
+        title: "Selección",
+        className: "text-center",
     },
 
     {
-        data: 'name',
-        title: 'Nombre',
-        className: 'text-center'
+        data: "name",
+        title: "Nombre",
+        className: "text-center",
     },
 
     {
-        data: 'price',
-        title: 'Precio',
-        className: 'text-center'
+        data: "price",
+        title: "Precio",
+        className: "text-center",
     },
-
-]
-
+];
 
 const getServices = async () => {
-
     try {
+        const response = await ServicesService.getServices();
 
-        const response =
-            await ServicesService.getServices()
-
-        allServices.value =
-            response.data.data ?? response.data
-
+        allServices.value = response.data.data ?? response.data;
     } catch (err) {
+        console.error("Error al cargar servicios:", err);
 
-        console.error(
-            'Error al cargar servicios:',
-            err
-        )
-
-        error.value =
-            'No se pudieron cargar los servicios'
-
+        error.value = "No se pudieron cargar los servicios";
     }
-
-}
-
+};
 
 const openServiceModal = () => {
+    tempSelectedServiceIds.value = selectedServices.value.map((s) => s.service_id);
 
-    tempSelectedServiceIds.value =
-        selectedServices.value.map(
-            (s) => s.service_id
-        )
-
-    showServiceModal.value = true
-
-}
-
+    showServiceModal.value = true;
+};
 
 const closeServiceModal = () => {
-
-    showServiceModal.value = false
-
-}
-
+    showServiceModal.value = false;
+};
 
 const toggleTempService = (serviceId) => {
-
-    const index =
-        tempSelectedServiceIds.value.indexOf(
-            serviceId
-        )
+    const index = tempSelectedServiceIds.value.indexOf(serviceId);
 
     if (index === -1) {
-
-        tempSelectedServiceIds.value.push(
-            serviceId
-        )
-
+        tempSelectedServiceIds.value.push(serviceId);
     } else {
-
-        tempSelectedServiceIds.value.splice(
-            index,
-            1
-        )
-
+        tempSelectedServiceIds.value.splice(index, 1);
     }
-
-}
-
+};
 
 const confirmAddServices = () => {
+    selectedServices.value = tempSelectedServiceIds.value.map((serviceId) => {
+        const existing = selectedServices.value.find((s) => s.service_id === serviceId);
 
-    selectedServices.value =
-        tempSelectedServiceIds.value.map(
-            (serviceId) => {
+        if (existing) {
+            return existing;
+        }
 
-                const existing =
-                    selectedServices.value.find(
-                        (s) =>
-                            s.service_id === serviceId
-                    )
+        const service = allServices.value.find((s) => s.id === serviceId);
 
-                if (existing) {
-                    return existing
-                }
+        return {
+            service_id: serviceId,
 
+            name: service.name,
 
-                const service =
-                    allServices.value.find(
-                        (s) => s.id === serviceId
-                    )
+            price: Number(service.price),
 
+            quantity: 1,
+        };
+    });
 
-                return {
-
-                    service_id: serviceId,
-
-                    name: service.name,
-
-                    price: Number(service.price),
-
-                    quantity: 1,
-
-                }
-
-            }
-        )
-
-
-    showServiceModal.value = false
-
-}
-
+    showServiceModal.value = false;
+};
 
 const removeService = (serviceId) => {
-
-    selectedServices.value =
-        selectedServices.value.filter(
-            (s) =>
-                s.service_id !== serviceId
-        )
-
-}
-
+    selectedServices.value = selectedServices.value.filter((s) => s.service_id !== serviceId);
+};
 
 const normalizeQuantity = (item) => {
-
     if (!item.quantity || item.quantity < 1) {
-        item.quantity = 1
+        item.quantity = 1;
     }
+};
 
-}
-
-
-const subtotalFor = (item) =>
-    item.price * item.quantity
-
+const subtotalFor = (item) => item.price * item.quantity;
 
 const subtotal = computed(() =>
-
-    selectedServices.value.reduce(
-        (sum, item) =>
-            sum + subtotalFor(item),
-        0
-    )
-
-)
-
+    selectedServices.value.reduce((sum, item) => sum + subtotalFor(item), 0),
+);
 
 const discount = computed(() => {
-
     if (!selectedPromotion.value) {
-        return 0
+        return 0;
     }
 
-
     return Math.min(
+        Number(selectedPromotion.value.discount_value),
 
-        Number(
-            selectedPromotion.value.discount_value
-        ),
+        subtotal.value,
+    );
+});
 
-        subtotal.value
-
-    )
-
-})
-
-
-const total = computed(() =>
-
-    subtotal.value - discount.value
-
-)
-
+const total = computed(() => subtotal.value - discount.value);
 
 const formatCurrency = (value) =>
-
-    new Intl.NumberFormat(
-        'es-PE',
-        {
-            style: 'currency',
-            currency: 'PEN'
-        }
-    ).format(value || 0)
-
+    new Intl.NumberFormat("es-PE", {
+        style: "currency",
+        currency: "PEN",
+    }).format(value || 0);
 
 // =============================================================
 // REGISTRO DE TRANSACCIÓN
 // =============================================================
 
 const buildDetailsPayload = () =>
+    selectedServices.value.map((item) => ({
+        service_id: item.service_id,
 
-    selectedServices.value.map(
-        (item) => ({
+        unit_price: item.price,
 
-            service_id: item.service_id,
-
-            unit_price: item.price,
-
-            quantity: item.quantity,
-
-        })
-    )
-
+        quantity: item.quantity,
+    }));
 
 const validateBeforeSubmit = () => {
-
-    error.value = ''
-
+    error.value = "";
 
     // =========================================================
     // EGRESO
     // =========================================================
 
     if (isExpense.value) {
-
         if (
             transactionForm.value.amount === null ||
-            transactionForm.value.amount === '' ||
+            transactionForm.value.amount === "" ||
             Number(transactionForm.value.amount) <= 0
         ) {
+            error.value = "Ingrese un monto válido para el egreso.";
 
-            error.value =
-                'Ingrese un monto válido para el egreso.'
-
-            return false
-
+            return false;
         }
 
+        if (!transactionForm.value.annotations?.trim()) {
+            error.value = "Ingrese una anotación para el egreso.";
 
-        if (
-            !transactionForm.value.annotations?.trim()
-        ) {
-
-            error.value =
-                'Ingrese una anotación para el egreso.'
-
-            return false
-
+            return false;
         }
 
-
-        return true
-
+        return true;
     }
-
 
     // =========================================================
     // INGRESO
@@ -1521,346 +869,189 @@ const validateBeforeSubmit = () => {
     // Promoción es opcional
 
     if (total.value <= 0) {
+        error.value = "El monto de la transacción debe ser mayor a cero.";
 
-        error.value =
-            'El monto de la transacción debe ser mayor a cero.'
-
-        return false
-
+        return false;
     }
 
-
-    return true
-
-}
-
+    return true;
+};
 
 // =============================================================
 // CREAR TRANSACCIÓN
 // =============================================================
 
 const createTransaction = async () => {
-
-    let clientId = null
-
+    let clientId = null;
 
     // Solo buscamos/creamos cliente para ingresos
     if (!isExpense.value) {
-
-        clientId =
-            await ensureClientId()
-
+        clientId = await ensureClientId();
     }
-
 
     const payload = {
+        client_id: isExpense.value ? null : clientId,
 
-        client_id:
-            isExpense.value
-                ? null
-                : clientId,
+        promotion_id: isExpense.value ? null : (selectedPromotion.value?.id ?? null),
 
-        promotion_id:
-            isExpense.value
-                ? null
-                : selectedPromotion.value?.id ?? null,
+        transaction_date: transactionForm.value.transaction_date,
 
-        transaction_date:
-            transactionForm.value.transaction_date,
+        transaction_type: transactionForm.value.transaction_type,
 
-        transaction_type:
-            transactionForm.value.transaction_type,
+        delivery_date: isExpense.value ? null : transactionForm.value.delivery_date || null,
 
-        delivery_date:
-            isExpense.value
-                ? null
-                : transactionForm.value.delivery_date || null,
+        responsible: transactionForm.value.responsible,
 
-        responsible:
-            transactionForm.value.responsible,
+        annotations: transactionForm.value.annotations?.trim() || null,
 
-        annotations:
-            transactionForm.value.annotations?.trim() || null,
+        amount: isExpense.value ? Number(transactionForm.value.amount) : Number(total.value),
 
-        amount:
-            isExpense.value
-                ? Number(
-                    transactionForm.value.amount
-                )
-                : Number(total.value),
+        details: isExpense.value ? [] : buildDetailsPayload(),
+    };
+    const response = await TransactionService.createTransaction(payload);
 
-        details:
-            isExpense.value
-                ? []
-                : buildDetailsPayload(),
-
-    }
-
-
-    const response =
-        await TransactionService.createTransaction(
-            payload
-        )
-
-
-    return response.data.data ?? response.data
-
-}
-
+    return response.data.data ?? response.data;
+};
 
 // =============================================================
 // REGISTRAR
 // =============================================================
 
 const registerSale = async () => {
-
     if (!validateBeforeSubmit()) {
-        return
+        return;
     }
 
-
     try {
-        await createTransaction()
+        await createTransaction();
 
-        await showSuccess(
-            'Se registró la transacción correctamente'
-        )
+        await showSuccess("Se registró la transacción correctamente");
 
-        goBack()
-
+        goBack();
     } catch (err) {
-
         if (err.response?.data?.errors) {
-
-            error.value =
-                Object.values(
-                    err.response.data.errors
-                )
-                    .flat()
-                    .join(' ')
-
+            error.value = Object.values(err.response.data.errors).flat().join(" ");
         } else {
-
-            error.value =
-                'No se pudo registrar la transacción'
-
+            error.value = "No se pudo registrar la transacción";
         }
-
-    } 
-
-}
-
+    }
+};
 
 // =============================================================
 // MODAL DE PAGO / ADELANTO
 // =============================================================
 
-const showPaymentModal = ref(false)
+const showPaymentModal = ref(false);
 
-const createdTransactionId = ref(null)
+const createdTransactionId = ref(null);
 
-const paymentMethods = ref([])
-
+const paymentMethods = ref([]);
 
 const paymentForm = ref({
+    payment_method_id: "",
 
-    payment_method_id: '',
+    amount: "",
 
-    amount: '',
+    payment_type: "advance",
+});
 
-    payment_type: 'advance',
-
-})
-
-
-const paymentError = ref('')
-
+const paymentError = ref("");
 
 const getPaymentMethods = async () => {
-
     try {
+        const response = await PaymentMethodService.getPaymentMethods();
 
-        const response =
-            await PaymentMethodService.getPaymentMethods()
-
-        paymentMethods.value =
-            response.data.data ?? response.data
-
+        paymentMethods.value = response.data.data ?? response.data;
     } catch (err) {
-
-        console.error(
-            'Error al cargar métodos de pago:',
-            err
-        )
-
+        console.error("Error al cargar métodos de pago:", err);
     }
-
-}
-
+};
 
 const giveAdvance = async () => {
-
     if (isExpense.value) {
-        return
+        return;
     }
-
 
     if (!validateBeforeSubmit()) {
-        return
+        return;
     }
 
-
     try {
+        const transaction = await createTransaction();
 
-        const transaction =
-            await createTransaction()
+        createdTransactionId.value = transaction.id;
 
-        createdTransactionId.value =
-            transaction.id
-
-        showPaymentModal.value = true
-
+        showPaymentModal.value = true;
     } catch (err) {
-
         if (err.response?.data?.errors) {
-
-            error.value =
-                Object.values(
-                    err.response.data.errors
-                )
-                    .flat()
-                    .join(' ')
-
+            error.value = Object.values(err.response.data.errors).flat().join(" ");
         } else {
-
-            error.value =
-                'No se pudo registrar la transacción'
-
+            error.value = "No se pudo registrar la transacción";
         }
-
-    } 
-}
-
+    }
+};
 
 const savePayment = async () => {
+    paymentError.value = "";
 
-    paymentError.value = ''
+    if (!paymentForm.value.payment_method_id || !paymentForm.value.amount) {
+        paymentError.value = "Complete el método de pago y el monto.";
 
-
-    if (
-        !paymentForm.value.payment_method_id ||
-        !paymentForm.value.amount
-    ) {
-
-        paymentError.value =
-            'Complete el método de pago y el monto.'
-
-        return
-
+        return;
     }
-
 
     try {
-
         await TransactionService.addPayment({
+            transaction_id: createdTransactionId.value,
 
-            transaction_id:
-                createdTransactionId.value,
+            payment_method_id: paymentForm.value.payment_method_id,
 
-            payment_method_id:
-                paymentForm.value.payment_method_id,
+            amount: paymentForm.value.amount,
 
-            amount:
-                paymentForm.value.amount,
+            payment_type: paymentForm.value.payment_type,
+        });
 
-            payment_type:
-                paymentForm.value.payment_type,
+        await showSuccess("Se registró la transacción y el adelanto correctamente");
 
-        })
-
-
-        await showSuccess(
-            'Se registró la transacción y el adelanto correctamente'
-        )
-
-        goToSalesboard()
-
+        goToSalesboard();
     } catch (err) {
-
         if (err.response?.data?.errors) {
-
-            paymentError.value =
-                Object.values(
-                    err.response.data.errors
-                )
-                    .flat()
-                    .join(' ')
-
+            paymentError.value = Object.values(err.response.data.errors).flat().join(" ");
         } else {
-
-            paymentError.value =
-                'No se pudo registrar el pago'
-
+            paymentError.value = "No se pudo registrar el pago";
         }
-
     }
-
-}
-
+};
 
 const cancelPayment = () => {
-
-    goToSalesboard()
-
-}
-
+    goToSalesboard();
+};
 
 // =============================================================
 // NAVEGACIÓN
 // =============================================================
 
 const goBack = () => {
-
-    goToSalesboard()
-
-}
-
+    goToSalesboard();
+};
 
 const goToSalesboard = () => {
-
     router.push({
-        name: 'salesboard'
-    })
-
-}
-
+        name: "salesboard",
+    });
+};
 
 // =============================================================
 // CARGA INICIAL
 // =============================================================
 
 onMounted(async () => {
-
-    cargando.value = true
+    cargando.value = true;
 
     try {
-
-        await Promise.all([
-
-            getActivePromotions(),
-
-            getServices(),
-
-            getPaymentMethods(),
-
-        ])
-
+        await Promise.all([getActivePromotions(), getServices(), getPaymentMethods()]);
     } finally {
-
-        cargando.value = false
-
+        cargando.value = false;
     }
-
-})
-
+});
 </script>

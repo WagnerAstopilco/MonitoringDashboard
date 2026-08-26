@@ -56,7 +56,7 @@
                         <div class="d-flex align-items-center">
                             <h3 class="card-subtitle">Promociones</h3>
                         </div>
-                        <div class="table-responsive p-1">
+                        <div v-if="promotions.length>0" class="table-responsive p-1">
                             <DataTable :data="promotions" :columns="promotionsColumns">
                                 <template #column-0="props">
                                     <div class="text-center">
@@ -87,6 +87,7 @@
                                 </template>
                             </DataTable>
                         </div>
+                        <span class="d-flex fst-italic justify-content-center">No existen promociones diponibles para vincular actualmente</span>
                     </div>
                     <div class="d-flex gap-2 mt-3 justify-content-center">
                         <button type="submit" class="btn btn-primary">Crear</button>
@@ -128,7 +129,6 @@ onMounted(async () => {
 })
 
 const newService = async () => {
-    console.log(errors)
     try {
         errors.value = {}
         const formData = new FormData()
@@ -209,7 +209,9 @@ const getAllPromotions = async () => {
         cargando.value = true;
         const response = await PromotionsService.getPromotions();
 
-        promotions.value = response.data.data;
+        promotions.value = response.data.data.filter(
+            promotion => promotion.status === 'active'
+        );
 
     } catch (err) {
         console.error('Error al cargar promociones:', err);

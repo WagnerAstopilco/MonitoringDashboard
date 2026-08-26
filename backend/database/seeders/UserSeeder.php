@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
                 'must_change_password' => false
             ],
             [
-                'name' => 'wager',
+                'name' => 'wagner',
                 'last_name' => 'astopilco',
                 'dni' => '71308818',
                 'username' => 'wastopilco',

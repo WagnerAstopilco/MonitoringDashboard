@@ -29,7 +29,7 @@ class UpdateServiceRequest extends FormRequest
             'cost'=> ['sometimes', 'numeric', 'min:0'],
             'profit'=> ['sometimes', 'numeric', 'min:0'],
             'status'=> ['sometimes', 'in:active,inactive'],
-            'service_image' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'service_image' => ['sometimes', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:4096'],
 
             'promotions' => ['nullable', 'array'],
             'promotions.*' => ['exists:promotions,id'],

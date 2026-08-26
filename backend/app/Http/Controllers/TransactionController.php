@@ -124,7 +124,7 @@ class TransactionController extends Controller
             'responsible'      => $validated['responsible'],
             'amount'           => 0,
             'profit'           => 0,
-            'status'           => 'pending',
+            'status'           => $validated['transaction_type']==='expense'?'paid':'pending',
         ]);
 
         $total = 0;
@@ -175,9 +175,6 @@ class TransactionController extends Controller
             $transaction->profit = 0;
 
         }
-
-
-        $transaction->status = 'pending';
 
         $transaction->save();
 

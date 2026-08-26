@@ -30,7 +30,7 @@ class StorePromotionRequest extends FormRequest
             'start_date'=> ['required', 'date'],
             'end_date'=> ['required', 'date', 'after_or_equal:start_date'],
             'status'=> ['nullable', 'in:active,inactive'],
-            'promotion_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'promotion_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:4096'],
             
             'services' => ['nullable', 'array'],
             'services.*' => ['exists:services,id'],

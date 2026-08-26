@@ -69,14 +69,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 //rutas de servicios
 Route::middleware('auth:sanctum')->group(function () {
+    Route::patch('/services/{service}/status', [ServiceController::class, 'changeStatus'])
+        ->middleware('permission:services.change_status');
     Route::get('/services', [ServiceController::class, 'index'])
         ->middleware('permission:services.view');
     Route::post('/services', [ServiceController::class, 'store'])
         ->middleware('permission:services.create');
     Route::get('/services/{service}', [ServiceController::class, 'show'])
         ->middleware('permission:services.view');
-    Route::patch('/services/{service}/status', [ServiceController::class, 'changeStatus'])
-        ->middleware('permission:service.change_status');
     Route::patch('/services/{service}/promotions', [ServiceController::class, 'syncPromotions'])
         ->middleware('permission:services.sync_promotions');
     Route::put('/services/{service}', [ServiceController::class, 'update'])
