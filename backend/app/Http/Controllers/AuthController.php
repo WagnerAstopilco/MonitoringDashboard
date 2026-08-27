@@ -55,6 +55,39 @@ class AuthController extends Controller
             'user' => new UserResource($user)
         ]);
     }
+    public function loginDemo(Request $request)
+    {
+        $credentials = [];
+        $credentias['username']='visita';
+        $credentials['password'] = 'passDemoTest';
+
+        if (!Auth::attempt($credentials)) {
+
+            return response()->json([
+                'message' => 'Credenciales incorrectas o usuario inactivo'
+            ], 401);
+        }
+
+
+        $user = Auth::user();
+
+        // Eliminar tokens anteriores (opcional)
+        $user->tokens()->delete();
+
+
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+
+        return response()->json([
+
+            'access_token' => $token,
+
+            'token_type' => 'Bearer',
+
+            'user' => new UserResource($user)
+        ]);
+    }
 
     public function logout(Request $request)
     {

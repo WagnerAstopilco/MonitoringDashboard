@@ -49,6 +49,15 @@ export const getHomeRouteByRole = (role) => {
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        //demo route
+        {
+            path:"/demo",
+            component:AdminLayout,
+            meta:
+            {
+                requiresAuth:true
+            }
+        },
         //administrative routes
         {
             path: "/home",

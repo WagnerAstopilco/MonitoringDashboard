@@ -12,17 +12,6 @@ use App\Http\Controllers\TransactionPaymentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\DB;
 
-Route::get('/test', function () {
-    return response()->json([
-        'message' => 'API funcionando'
-    ]);
-});
-Route::get('/test-db', function () {
-    return response()->json([
-        'database' => DB::connection()->getDatabaseName(),
-        'status' => 'Conexión correcta'
-    ]);
-});
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/services/publicServices', [ServiceController::class, 'publicServices']);
@@ -39,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::get('/me', [AuthController::class, 'me']);
     Route::patch('/me', [AuthController::class, 'updateProfile']);
+    Route::post('/demo',[AuthController::class,'loginDemo']);
 });
 
 //rutas de usuarios
