@@ -272,6 +272,9 @@ const getUsers = async () => {
     try {
         cargando.value = true;
         const response = await UserService.getUsers();
+                console.log('RESPUESTA COMPLETA:', response);
+        console.log('RESPONSE.DATA:', response.data);
+        console.log('USERS:', response.data.data);
         users.value = response.data.data;
     } catch (error) {
         // await showError('No se encontraron usuarios en este momento')
