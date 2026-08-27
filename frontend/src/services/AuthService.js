@@ -7,6 +7,9 @@ const AuthServices = {
     return api.post('/login', credentials)
 
     },
+    logindemo(){
+        return api.post('/demo')
+    },
 
     me(){
         return api.get('/me');

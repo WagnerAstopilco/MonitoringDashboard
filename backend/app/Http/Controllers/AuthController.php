@@ -55,10 +55,10 @@ class AuthController extends Controller
             'user' => new UserResource($user)
         ]);
     }
-    public function loginDemo(Request $request)
+    public function loginDemo()
     {
         $credentials = [];
-        $credentias['username']='visita';
+        $credentials['username']='visita';
         $credentials['password'] = 'passDemoTest';
 
         if (!Auth::attempt($credentials)) {

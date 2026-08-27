@@ -98,8 +98,37 @@ export const useAuthStore = defineStore('auth', {
 
             }
 
-        }
+        },
+        async loginDemo(remember = false) {
 
+            try {
+
+                this.loading = true
+
+                const response = await AuthServices.loginDemo()
+
+                this.token = response.data.access_token
+                this.user = response.data.user
+
+                setAuth(
+                    response.data.access_token,
+                    response.data.user,
+                    remember
+                )
+
+                return response.data.user
+
+            } catch (error) {
+
+                throw error
+
+            } finally {
+
+                this.loading = false
+
+            }
+
+        }
 
     }
 

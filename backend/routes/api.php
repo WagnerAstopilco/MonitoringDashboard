@@ -18,6 +18,7 @@ Route::get('/services/publicServices', [ServiceController::class, 'publicService
 Route::get('/services/publicServices/{service}', [ServiceController::class, 'showPublicService']);
 Route::get('/promotions/publicPromotions', [PromotionController::class, 'publicPromotions']);
 Route::get('/promotions/publicPromotions/{promotion}', [PromotionController::class, 'showPublicPromotion']);
+Route::post('/demo',[AuthController::class,'loginDemo']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
@@ -28,7 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::get('/me', [AuthController::class, 'me']);
     Route::patch('/me', [AuthController::class, 'updateProfile']);
-    Route::post('/demo',[AuthController::class,'loginDemo']);
 });
 
 //rutas de usuarios

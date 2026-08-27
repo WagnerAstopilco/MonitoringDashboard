@@ -24,6 +24,7 @@ import PublicServiceDetailsView from "@/views/public/serviceDetail.vue";
 import PublicPromotionDetailsView from "@/views/public/promotionDetail.vue";
 import ContactView from '@/views/public/contact.vue';
 import { useAuthStore } from '@/stores/auth'
+import DemoView from "@/views/main/demo.vue";
 
 
 export const getHomeRouteByRole = (role) => {
@@ -52,11 +53,8 @@ const router = createRouter({
         //demo route
         {
             path:"/demo",
-            component:AdminLayout,
-            meta:
-            {
-                requiresAuth:true
-            }
+            name: "demo",
+            component: DemoView,
         },
         //administrative routes
         {
