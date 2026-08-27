@@ -3,6 +3,7 @@
   "name": "monitoring-dashboard",
   "compatibility_date": "2026-08-26",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
   }
 }
