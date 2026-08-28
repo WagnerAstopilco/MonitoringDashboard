@@ -4,7 +4,7 @@
         <div class="card border-0 shadow-lg rounded-4 p-4">
             <div class="d-flex align-items-center flex-wrap justify-content-between mb-3">
                 <h1>Perfil de usuario</h1>
-                <div class="d-flex flex-wrap gap-2">
+                <div v-if="!isDemoUser" class="d-flex flex-wrap gap-2">
                     <button v-if="!isEditing" class="btn btn-info" type="button" @click="toggleEdit()">
                         <i class="bi bi-pencil-square"></i>
                         Editar
@@ -123,18 +123,18 @@
 
 <script setup>
 import Preloader from '@/components/layout/preloader.vue';
-import { ref, onBeforeUnmount, onMounted } from 'vue';
+import { ref, onBeforeUnmount,computed, onMounted } from 'vue';
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import AuthServices from '@/services/AuthService';
 import { useRoute } from 'vue-router';
-import UserService from '@/services/UserService';
 import { showSuccess, showError } from '@/utils/sweetAlert';
-
-
+import { useAuthStore } from '@/stores/auth'
 
 // ---------------------------------------------------------------------------
 // Section 1: view load
 // ---------------------------------------------------------------------------
+const auth = useAuthStore()
+const isDemoUser = computed(() => auth.user?.username === 'visita')
 const cargando = ref(false);
 
 onMounted(() => {

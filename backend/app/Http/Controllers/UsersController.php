@@ -51,6 +51,11 @@ class UsersController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $validatedData = $request->validated();
+        if ($request->user()->username === 'visita') {
+            return response()->json([
+                'message' => 'El usuario demo no puede modificar su perfil.'
+            ], 403);
+        }
         if (isset($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         }
