@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { getHomeRouteByRole } from '@/router'
+import AuthServices from '@/services/AuthService'
 
 const router = useRouter()
 const auth = useAuthStore()
