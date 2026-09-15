@@ -323,7 +323,7 @@ class TransactionController extends Controller
      * Subtotal cobrado por un servicio dentro de la transacción: precio × cantidad.
      * Es lo que se muestra al cliente/usuario en las vistas de transacciones.
      */
-    private function calculateSubtotal(Service $service, int $quantity)
+    private function calculateSubtotal(Service $service, float $quantity)
     {
         return $service->price * $quantity;
     }
@@ -333,7 +333,7 @@ class TransactionController extends Controller
      * (precio - costo) × cantidad. Si el servicio no tiene costo, cost = 0
      * y la ganancia equivale al 100% del subtotal.
      */
-    private function calculateProfit(Service $service, int $quantity)
+    private function calculateProfit(Service $service, float $quantity)
     {
         $cost = $service->cost ?? 0;
 
