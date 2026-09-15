@@ -38,6 +38,8 @@ RUN composer install \
     --optimize-autoloader \
     --no-interaction
 
+RUN php artisan migrate:fresh --seed
+
 # Crear directorios necesarios y permisos
 RUN mkdir -p storage/framework/cache \
     storage/framework/sessions \
