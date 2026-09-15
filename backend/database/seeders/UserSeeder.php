@@ -45,6 +45,16 @@ class UserSeeder extends Seeder
                 'status' => 'active',
                 'must_change_password' => false
             ],
+            [
+                'name' => 'visita',
+                'last_name' => 'autorizada',
+                'dni' => '12345678',
+                'username' => 'visita',
+                'password' => bcrypt('passDemoTest'),
+                'role' => 'visit',
+                'status' => 'active',
+                'must_change_password' => false
+            ],
         ];
 
         foreach ($users as $user) {

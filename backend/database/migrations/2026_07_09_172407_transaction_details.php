@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('unit_price', 10, 2);
             $table->decimal('unit_cost', 10, 2)->default(0);
             $table->decimal('profit', 10, 2)->default(0);
-            $table->integer('quantity')->default(1);
+            $table->decimal('quantity', 10, 2)->default(1);
             $table->decimal('subtotal', 10, 2);
             $table->timestamps();
         });

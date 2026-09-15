@@ -40,7 +40,7 @@ class StoreTransactionRequest extends FormRequest
             'details.*.service_id' => ['required','exists:services,id',],
             'details.*.promotion_id' => ['nullable','exists:promotions,id',],
             'details.*.unit_price' => ['required','numeric','min:0',],
-            'details.*.quantity' => ['required','integer','min:1',],
+            'details.*.quantity' => ['required','numeric','min:1',],
 
 
 

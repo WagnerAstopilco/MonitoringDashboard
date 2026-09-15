@@ -372,7 +372,7 @@
 
     <div v-if="showPaymentModal">
         <div class="modal d-block" tabindex="-1" style="background: rgba(0, 0, 0, 0.5)">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Registrar pago</h5>
@@ -404,8 +404,6 @@
 
                             <select id="payment_type" class="form-select" v-model="paymentForm.payment_type" required>
                                 <option value="advance">Adelanto</option>
-
-                                <option value="balance">Saldo</option>
 
                                 <option value="full">Pago completo</option>
                             </select>
